@@ -1,2 +1,3 @@
-# kubernetes-data
-Kubernetes Data Setups
+# Kubernetes Data
+
+Training resources on managing data on Kubernetes

@@ -1,0 +1,22 @@
+#
+# Statically provision a volume mounted onto the node
+#
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: localpath-volume
+spec:
+  capacity:
+    storage: 5Gi
+  accessModes:
+    - ReadWriteOnce
+  local:
+    path: /app/data
+  nodeAffinity:
+    required:
+      nodeSelectorTerms:
+      - matchExpressions:
+        - key: kubernetes.io/hostname
+          operator: In
+          values:
+          - data-worker2

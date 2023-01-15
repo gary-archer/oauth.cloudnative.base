@@ -1,0 +1,13 @@
+1. Deploy Wordpress resources without errors
+
+2. Get ingress working
+
+3. Get some data writing to /app/data on data-worker2
+
+4. Update to use storageclassname blank
+   Add a comment on what it means
+
+5. Change naming - I don't like the app=wordpress label set against the MySQL component
+   Perhaps use these labels:
+   - wordpress-data
+   - wordpress-app
