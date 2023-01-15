@@ -1,13 +1,10 @@
-1. Deploy Wordpress resources without errors
+1. Get ingress working and browse to Wordpress home
+   Where does the data go?
+   Should it be on /app/data on data-worker2?
 
-2. Get ingress working
-
-3. Get some data writing to /app/data on data-worker2
-
-4. Update to use storageclassname blank
+2. Update to use storageclassname blank
    Add a comment on what it means
 
-5. Change naming - I don't like the app=wordpress label set against the MySQL component
-   Perhaps use these labels:
+3. Update naming of labels etc to these values, then re-test:
    - wordpress-data
    - wordpress-app
