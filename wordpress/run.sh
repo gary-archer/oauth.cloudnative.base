@@ -9,8 +9,8 @@ cd "$(dirname "${BASH_SOURCE[0]}")"
 #
 # Create a KIND cluster
 #
-#kind delete cluster --name=data 2>/dev/null
-#kind create cluster --name=data --config='./cluster.yaml'
+kind delete cluster --name=data 2>/dev/null
+kind create cluster --name=data --config='./cluster.yaml'
 if [ $? -ne 0 ]; then
   echo '*** Problem encountered creating the Kubernetes cluster'
   exit 1
