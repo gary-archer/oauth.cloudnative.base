@@ -9,18 +9,15 @@ Then run commands:
 
 DATA
 ----
-Nothing written to /app/data on data-worker2?
-But I can kill pods and still save my data at this URL:
-http://localhost:30000/?page_id=5
+On the data-worker node the data is stored here:
+/var/local-path-provisioner
 
-STORAGE CLASSES
+When I describe pvc I seem to be using rancher.io/local-path and StorageClass=standard
 
-4. Understand storage classes
-   I am using static provisioning with 'local path' volume
-   Other storage classes support dynamic provisioning
+RANCHER
+-------
+I think this is preinstalled, and used by default:
 
-5. Get ingress working and check in changes
+kubectl delete -f https://raw.githubusercontent.com/rancher/local-path-provisioner/master/deploy/local-path-storage.yaml
+kubectl apply  -f https://raw.githubusercontent.com/rancher/local-path-provisioner/master/deploy/local-path-storage.yaml
 
-6. Update naming of labels etc to these values, then re-test:
-   - wordpress-data
-   - wordpress-app
