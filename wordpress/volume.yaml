@@ -1,5 +1,6 @@
 #
 # Statically provision a volume mounted onto the node
+# First, the local folder must be created on the node itself
 #
 apiVersion: v1
 kind: PersistentVolume
@@ -19,4 +20,4 @@ spec:
         - key: kubernetes.io/hostname
           operator: In
           values:
-          - data-worker2
+          - data-worker

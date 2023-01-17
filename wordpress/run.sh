@@ -17,6 +17,15 @@ if [ $? -ne 0 ]; then
 fi
 
 #
+# Use static provisioning by creating a folder in advance of persistent volumes
+#
+docker exec -it data-worker bash -c "mkdir -p /app/data"
+if [ $? -ne 0 ]; then
+  echo '*** Problem encountered provisioning the volume on the worker node'
+  exit 1
+fi
+
+#
 # Create a persistent volume with up to 5GB of space
 #
 kubectl delete -f volume.yaml 2>/dev/null
@@ -65,3 +74,8 @@ if [ $? -ne 0 ]; then
   echo '*** Problem encountered creating the Wordpress component'
   exit 1
 fi
+
+#
+# Now run kubectl port-forward <pod name> 30000:80
+# Then browse to http://localhost:30000
+#

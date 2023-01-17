@@ -16,4 +16,3 @@ nodes:
       hostPort: 80
 
 - role: worker
-- role: worker

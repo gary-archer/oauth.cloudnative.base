@@ -32,11 +32,18 @@ spec:
       - image: mysql:8.0
         name: mysql
         env:
+        - name: MYSQL_DATABASE
+          value: wordpress
+        - name: MYSQL_USER
+          value: wordpress
+        - name: MYSQL_PASSWORD
+          value: wordpress
         - name: MYSQL_ROOT_PASSWORD
-          valueFrom:
-            secretKeyRef:
-              name: mysql-root-password
-              key: password
+          value: somewordpress
+          #valueFrom:
+          #  secretKeyRef:
+          #    name: mysql-root-password
+          #    key: password
         ports:
         - containerPort: 3306
           name: mysql

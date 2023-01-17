@@ -1,26 +1,21 @@
-WORKING
--------
-1. mysql password: 1f2d1e2e67df
-   Remote to pod and do 'mysql -uroot -p' then enter the password
-   Then run commands:
-   - SHOW DATABASES;
-   - USE mysql;
-   - SHOW TABLES;
-
-NOT WORKING
+MYSQL USAGE
 -----------
-2. Get wordpress working --> broken
-   - kubectl port-forward pod/wordpress-b4958989-r7ksq 30000:80
-   - browse to http://localhost:3000
-   - reports 'Error establishing a database connection'
+mysql password: 1f2d1e2e67df
+Remote to the pod and do 'mysql -uroot -p' then enter the password
+Then run commands:
+- SHOW DATABASES;
+- USE mysql;
+- SHOW TABLES;
 
-THEN
+DATA
 ----
-3. Where does the data go?
-   Can I get something saving to /app/data on data-worker2?
+Nothing written to /app/data on data-worker2?
+But I can kill pods and still save my data at this URL:
+http://localhost:30000/?page_id=5
+
+STORAGE CLASSES
 
 4. Understand storage classes
-   Currently says standard
    I am using static provisioning with 'local path' volume
    Other storage classes support dynamic provisioning
 
