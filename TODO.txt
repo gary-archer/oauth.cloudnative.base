@@ -16,8 +16,12 @@ When I describe pvc I seem to be using rancher.io/local-path and StorageClass=st
 
 RANCHER
 -------
-I think this is preinstalled, and used by default:
+This is preinstalled, and used by default, as the only storage class:
 
 kubectl delete -f https://raw.githubusercontent.com/rancher/local-path-provisioner/master/deploy/local-path-storage.yaml
 kubectl apply  -f https://raw.githubusercontent.com/rancher/local-path-provisioner/master/deploy/local-path-storage.yaml
 
+WINDOWS
+-------
+Use winpty before 'docker exec -it ...'
+Or better, have an alias defined.
