@@ -20,7 +20,7 @@ Store the data in pods rather than nodes, and retain high availability.
 
 ## 5. Scalability
 
-Use of read write replicas and sharding.
+Separate read-write replicas, and use of sharding.
 
 ## Common Behavior
 
