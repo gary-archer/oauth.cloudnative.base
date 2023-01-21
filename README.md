@@ -12,7 +12,7 @@ Dynamically provisioned persistent volumes, to survive pod deletion.
 
 ## 3. Node High Availability
 
-Use of replication using the MySQL Helm chart, to survive node deletion.
+A MySQL cluster, deployed via Helm, that can survive node deletion.
 
 ## 4. Container Storage High Availability
 
