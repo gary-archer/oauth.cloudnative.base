@@ -16,7 +16,7 @@ A MySQL cluster, deployed via Helm, that can survive node deletion.
 
 ## 4. Container Storage High Availability
 
-Store the data in pods rather than nodes, and retain high availability.
+Store the data in clustered pods rather than nodes, and retain high availability.
 
 ## 5. Scalability
 
@@ -24,4 +24,4 @@ Separate read-write replicas, and use of sharding.
 
 ## Common Behavior
 
-Each deployment has scripts for backup, restore and application upgrades.
+Each deployment has scripts for backup, restore and upgrades.
