@@ -24,4 +24,4 @@ Separate read-write replicas, and use of sharding.
 
 ## Common Behavior
 
-Each deployment has scripts for backup, restore and MySQL upgrades.
+Each deployment has scripts for backup, restore and application upgrades.
