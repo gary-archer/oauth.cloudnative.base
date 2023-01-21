@@ -1,37 +1,18 @@
 #!/bin/bash
 
-########################################################
-# A script to create a cluster, using MySQL with volumes
-########################################################
+##########################################################
+# A script to create a cluster, using volume based storage
+##########################################################
 
 cd "$(dirname "${BASH_SOURCE[0]}")"
 
 #
-# Create a KIND cluster
+# Create a KIND cluster that uses a rancher dynamic volume provisioner
 #
 kind delete cluster --name=data 2>/dev/null
 kind create cluster --name=data --config='./cluster.yaml'
 if [ $? -ne 0 ]; then
   echo '*** Problem encountered creating the Kubernetes cluster'
-  exit 1
-fi
-
-#
-# Use static provisioning by creating a folder in advance of persistent volumes
-#
-docker exec -it data-worker bash -c "mkdir -p /app/data"
-if [ $? -ne 0 ]; then
-  echo '*** Problem encountered provisioning the volume on the worker node'
-  exit 1
-fi
-
-#
-# Create a persistent volume with up to 5GB of space
-#
-kubectl delete -f volume.yaml 2>/dev/null
-kubectl apply  -f volume.yaml
-if [ $? -ne 0 ]; then
-  echo '*** Problem encountered creating the volume'
   exit 1
 fi
 
@@ -46,7 +27,7 @@ if [ $? -ne 0 ]; then
 fi
 
 #
-# Create the main MySQL resources, which mount the volume
+# Create the main MySQL resources, that uses the storage provisioned
 #
 kubectl delete -f mysql.yaml 2>/dev/null
 kubectl apply  -f mysql.yaml
@@ -66,7 +47,7 @@ if [ $? -ne 0 ]; then
 fi
 
 #
-# Create the main Wordpress resources, which mount the volume
+# Create the main Wordpress resources, that uses the storage provisioned
 #
 kubectl delete -f wordpress.yaml 2>/dev/null
 kubectl apply  -f wordpress.yaml
