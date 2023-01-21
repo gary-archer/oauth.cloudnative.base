@@ -2,12 +2,18 @@
 # The MySQL component
 #
 apiVersion: v1
-kind: Secret
+kind: PersistentVolumeClaim
 metadata:
-  name: mysql-root-password
-type: Opaque
-data:
-  password: MWYyZDFlMmU2N2Rm
+  name: mysql-pv-claim
+  labels:
+    app: wordpress
+spec:
+  storageClassName: standard
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 1Gi
 ---
 apiVersion: apps/v1
 kind: Deployment
@@ -29,7 +35,7 @@ spec:
         tier: mysql
     spec:
       containers:
-      - image: mysql:8.0
+      - image: mysql:8.0.32
         name: mysql
         env:
         - name: MYSQL_DATABASE
@@ -39,7 +45,7 @@ spec:
         - name: MYSQL_PASSWORD
           valueFrom:
             secretKeyRef:
-              name: mysql-root-password
+              name: mysql-password
               key: password
         - name: MYSQL_ROOT_PASSWORD
           valueFrom:

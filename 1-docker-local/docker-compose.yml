@@ -3,12 +3,11 @@
 #
 services:
   db:
-    image: mysql:8.0
+    image: mysql:8.0.32
     volumes:
-      - db_data:/var/lib/mysql
-    restart: always
+      - ./data:/var/lib/mysql
     environment:
-      - MYSQL_ROOT_PASSWORD=somewordpress
+      - MYSQL_ROOT_PASSWORD=Password1
       - MYSQL_DATABASE=wordpress
       - MYSQL_USER=wordpress
       - MYSQL_PASSWORD=wordpress
@@ -17,15 +16,11 @@ services:
       - 33060
 
   wordpress:
-    image: wordpress:5.8-apache
+    image: wordpress:6.1.1-apache
     ports:
-      - 81:80
-    restart: always
+      - 80:80
     environment:
       - WORDPRESS_DB_HOST=db
       - WORDPRESS_DB_USER=wordpress
       - WORDPRESS_DB_PASSWORD=wordpress
       - WORDPRESS_DB_NAME=wordpress
-
-volumes:
-  db_data:
