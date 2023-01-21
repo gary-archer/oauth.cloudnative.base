@@ -8,7 +8,7 @@ A basic local deployment to ensure that the container settings are correct.
 
 ## 2. Pod High Availability
 
-Dynamically provisioned persistent volumes, to survive pod deletion.
+Dynamically provisioned node storage, to survive pod deletion.
 
 ## 3. Node High Availability
 
@@ -20,7 +20,7 @@ Store the data in clustered pods rather than nodes, and retain high availability
 
 ## 5. Scalability
 
-Separate read-write replicas, and use of sharding.
+Separate read-write replicas, and a cluster that uses sharding.
 
 ## Common Behavior
 
