@@ -1,6 +1,6 @@
 # Cloud Native Data
 
-Resilient data deployment in Kubernetes.
+Kubernetes resilient data setup on a development computer.
 
 ## 1. Docker Local
 
