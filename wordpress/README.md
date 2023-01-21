@@ -1,9 +1,9 @@
 # Basic Dynamic Provisioning
 
-This uses the standard storage class shipped with KIND.\
-This uses the rancher.io/local-path dynamic provisioner.
+This uses the rancher.io/local-path storageclass shipped with KIND.\
+It provisions volumes dynamically.
 
-## Node Locations
+## Physcial Storage
 
 Data is stored on nodes at locations like this:
 
