@@ -8,20 +8,16 @@ A basic local deployment to ensure that the container settings are correct.
 
 ## 2. Pod High Availability
 
-Dynamically provisioned node storage, to survive pod deletion.
+Dynamically provisioned single node storage, to survive pod deletion.
 
 ## 3. Node High Availability
 
-A MySQL cluster, deployed via Helm, that can survive node deletion.
+Dynamically provisioned multi-node storage, to survive node and pod deletion.
 
 ## 4. Container Storage High Availability
 
-Store the data in clustered pods rather than nodes, and retain high availability.
+Avoid storing data on nodes and use clustered pods instead.
 
-## 5. Scalability
+## 5. Backup and Restores
 
-Separate read-write replicas, and a cluster that uses sharding.
-
-## Common Behavior
-
-Each deployment has scripts for backup, restore and upgrades.
+The ability to destroy the cluster without losing data.
