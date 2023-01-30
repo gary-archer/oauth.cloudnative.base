@@ -10,7 +10,7 @@ cd "$(dirname "${BASH_SOURCE[0]}")"
 # Create a KIND cluster that uses a rancher dynamic volume provisioner
 #
 ./teardown.sh
-kind create cluster --name=podha --config='./cluster.yaml'
+kind create cluster --name=nodeha --config='./cluster.yaml'
 if [ $? -ne 0 ]; then
   echo '*** Problem encountered creating the Kubernetes cluster'
   exit 1
@@ -39,11 +39,12 @@ kubectl wait --namespace ingress-nginx \
 kubectl delete -A ValidatingWebhookConfiguration ingress-nginx-admission
 
 #
-# Create a MySQL secret for credentials
+# Create a MySQL secret for passwords
 #
 kubectl delete secret mysql-passwords 2>/dev/null
 kubectl create secret generic mysql-passwords \
   --from-literal=mysql-root-password='Password1' \
+  --from-literal=mysql-replication-password='Password1' \
   --from-literal=mysql-password='Password1'
 if [ $? -ne 0 ]; then
   echo '*** Problem encountered creating MySQL secrets'
@@ -51,12 +52,13 @@ if [ $? -ne 0 ]; then
 fi
 
 #
-# Create the MySQL resources
+# Create a replicated MySQL using the Helm chart
 #
-kubectl delete -f mysql.yaml 2>/dev/null
-kubectl apply  -f mysql.yaml
+helm repo add bitnami https://charts.bitnami.com/bitnami
+helm repo update
+helm install mysql bitnami/mysql -f mysql-helm-values.yaml
 if [ $? -ne 0 ]; then
-  echo '*** Problem encountered creating the MySQL component'
+  echo '*** Problem encountered creating the MySQL cluster'
   exit 1
 fi
 

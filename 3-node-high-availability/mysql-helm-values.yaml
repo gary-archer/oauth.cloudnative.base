@@ -1,0 +1,11 @@
+#
+# A values file for the Bitnami Helm chart
+# https://github.com/bitnami/charts/tree/main/bitnami/mysql
+#
+architecture: replication
+secondary:
+  replicaCount: 1
+auth:
+  existingSecret: mysql-passwords
+  database: wordpress
+  username: wordpress

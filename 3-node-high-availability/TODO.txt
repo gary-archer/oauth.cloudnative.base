@@ -1,0 +1,6 @@
+1. Work out how to restart a node in KIND
+   I should be able to restart the node containing primary MySql and wordpress files
+
+2. Wordpress file replication
+   Is there a Helm chart that enables this?
+
