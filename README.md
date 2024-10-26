@@ -1,7 +1,7 @@
 # Cloud Native Data
 
-A basic repo to rehearse Kubernetes data setups on a development computer.\
-This uses a few simple Wordpress and MySQL deployments.
+A repo to rehearse Kubernetes data deployment scenarios on a development computer.\
+The example uses simple Wordpress and MySQL components.
 
 ## 1. Docker Local
 
@@ -9,12 +9,12 @@ This uses a few simple Wordpress and MySQL deployments.
 
 ## 2. Pod High Availability
 
-Storage that surives pod deletion:
+Uses the KIND default storage class to survive pod deletion:
 
 - [A KIND deployment using persistent volumes](2-kind-persistent-volume/README.md)
 
 ## 3. Cluster High Availability
 
-Storage that surives cluster recreation:
+Uses KIND with a custom storage class to survive cluster recreation:
 
 - [A KIND deployment using external storage](3-kind-external-storage/README.md)
