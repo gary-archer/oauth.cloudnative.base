@@ -1,7 +1,7 @@
-#
-# A hostpath storage provider
-# - https://mauilion.dev/posts/kind-pvc/
-#
+#######################################################################
+# Overrides the default KIND storage class to use host computer storage
+# - https://mauilion.dev/posts/kind-pvc
+#######################################################################
 
 ---
 apiVersion: v1

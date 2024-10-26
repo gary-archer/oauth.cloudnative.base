@@ -13,7 +13,7 @@ The volumes store both mysql data and wordpress files.
 Run the following script in a terminal window:
 
 ```bash
-../utils/create-cluster.sh
+./create-cluster.sh
 ```
 
 Then run the deployment script in a second terminal window:
@@ -25,7 +25,7 @@ Then run the deployment script in a second terminal window:
 The script outputs an external IP address for Wordpress.\
 Map that to the hostname `wordpress.local` in your hosts file.
 
-## Node Data Storage
+## Volumes on Kubernetes Nodes
 
 MySQL data is stored on a worker node at a location like this:
 
