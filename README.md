@@ -3,7 +3,9 @@
 A repo to rehearse Kubernetes data deployment scenarios on a development computer.\
 The example uses simple Wordpress and MySQL components.
 
-## 1. Docker Local
+## 1. Docker Basic
+
+The simplest deployment of the components, for basic sanity checking:
 
 - [A Docker Compose deployment](1-docker-basic/README.md)
 
