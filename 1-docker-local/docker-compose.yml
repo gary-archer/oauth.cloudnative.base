@@ -3,7 +3,7 @@
 #
 services:
   db:
-    image: mysql:8.0.32
+    image: custom_mysql:9.1.0
     volumes:
       - ./data:/var/lib/mysql
     environment:
@@ -16,7 +16,7 @@ services:
       - 33060
 
   wordpress:
-    image: wordpress:6.1.1-apache
+    image: wordpress:6.6.2-apache
     ports:
       - 80:80
     environment:

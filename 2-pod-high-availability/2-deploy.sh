@@ -1,20 +1,10 @@
 #!/bin/bash
 
-##########################################################
-# A script to create a cluster, using volume based storage
-##########################################################
+########################################################
+# A script to deploy and expose Wordpress in the cluster
+########################################################
 
 cd "$(dirname "${BASH_SOURCE[0]}")"
-
-#
-# Create a KIND cluster that uses a rancher dynamic volume provisioner
-#
-./teardown.sh
-kind create cluster --name=podha --config='./cluster.yaml'
-if [ $? -ne 0 ]; then
-  echo '*** Problem encountered creating the Kubernetes cluster'
-  exit 1
-fi
 
 #
 # Deploy the NGINX ingress controller
@@ -36,7 +26,7 @@ kubectl wait --namespace ingress-nginx \
 #
 # Work around default developer setups not working
 #
-kubectl delete -A ValidatingWebhookConfiguration ingress-nginx-admission
+##kubectl delete -A ValidatingWebhookConfiguration ingress-nginx-admission
 
 #
 # Create a MySQL secret for credentials
@@ -73,7 +63,7 @@ fi
 #
 # Wait for the wordpress URL
 #
-WORDPRESS_URL='http://wordpress.local/wp-admin/install.php'
+WORDPRESS_URL='http://localhost/wp-admin/install.php'
 echo 'Waiting for Wordpress to become available ...'
 while [ "$(curl -k -s -o /dev/null -w ''%{http_code}'' "$WORDPRESS_URL")" != '200' ]; do
   sleep 2

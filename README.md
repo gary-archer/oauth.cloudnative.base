@@ -4,7 +4,9 @@ Kubernetes resilient data setup on a development computer.
 
 ## 1. Docker Local
 
-A basic local deployment to ensure that the container settings are correct.
+A Docker Compose deployment of Wordpress and MySQL:
+
+A [mysql local deployment](1-docker-local)
 
 ## 2. Pod High Availability
 
