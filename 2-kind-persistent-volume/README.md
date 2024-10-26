@@ -1,11 +1,12 @@
 # Pod High Availability
 
-Demonstrates surviving pod restart.
+Demonstrates deployment with persistent volumes so that pod deletion does not lose data.
 
 ## Dynamic Provisioning
 
-A deployment that uses the `rancher.io/local-path` storageclass shipped with KIND.\
-This provisions volumes dynamically for wordpress files and mysql data.
+A deployment that deploys a single MySql pod within a stateful set.\
+It uses the default `rancher.io/local-path` storageclass shipped with KIND.\
+The volumes store both mysql data and wordpress files.
 
 ## Deployment
 
@@ -38,4 +39,4 @@ Wordpress files are stored on a worker node at a location like this:
 /var/local-path-provisioner/pvc-72af6d1a-8a51-4670-b0ef-e4b4839ab769_default_wp-pv-claim
 ```
 
-I can delete a pod and it gets recreated without data loss.
+You can delete a pod and it gets recreated without data loss.

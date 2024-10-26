@@ -16,7 +16,7 @@ spec:
       storage: 1Gi
 ---
 apiVersion: apps/v1
-kind: Deployment
+kind: StatefulSet
 metadata:
   name: mysql
   labels:
@@ -26,8 +26,6 @@ spec:
     matchLabels:
       app: mysql
       tier: mysql
-  strategy:
-    type: Recreate
   template:
     metadata:
       labels:
