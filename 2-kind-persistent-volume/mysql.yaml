@@ -6,7 +6,7 @@ kind: PersistentVolumeClaim
 metadata:
   name: mysql-pv-claim
   labels:
-    app: wordpress
+    app: mysql
 spec:
   storageClassName: standard
   accessModes:
@@ -18,24 +18,24 @@ spec:
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: wordpress-mysql
+  name: mysql
   labels:
-    app: wordpress
+    app: mysql
 spec:
   selector:
     matchLabels:
-      app: wordpress
+      app: mysql
       tier: mysql
   strategy:
     type: Recreate
   template:
     metadata:
       labels:
-        app: wordpress
+        app: mysql
         tier: mysql
     spec:
       containers:
-      - image: mysql:8.0.32
+      - image: mysql:9.1.0
         name: mysql
         env:
         - name: MYSQL_DATABASE
@@ -66,13 +66,13 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: wordpress-mysql
+  name: mysql
   labels:
-    app: wordpress
+    app: mysql
 spec:
   ports:
     - port: 3306
   selector:
-    app: wordpress
+    app: mysql
     tier: mysql
   clusterIP: None

@@ -1,25 +1,19 @@
 # Cloud Native Data
 
-Kubernetes resilient data setup on a development computer.
+Example Wordpress and MySQL deployments to focus on high availability on a development computer.
 
 ## 1. Docker Local
 
-A Docker Compose deployment of Wordpress and MySQL:
-
-A [mysql local deployment](1-docker-local)
+[A Docker Compose deployment](1-docker-basic/README.md)
 
 ## 2. Pod High Availability
 
-Dynamically provisioned single node storage, to survive pod deletion.
+Storage that surives pod deletion:
 
-## 3. Node High Availability
+A [A KIND deployment using persistent volumes](2-kind-persistent-volume/README.md)
 
-Dynamically provisioned multi-node storage, to survive node and pod deletion.
+## 3. Cluster High Availability
 
-## 4. Container Storage High Availability
+Storage that surives cluster recreation:
 
-Avoid storing data on nodes and use clustered pods instead.
-
-## 5. Backup and Restores
-
-The ability to destroy the cluster without losing data.
+A [A KIND deployment using external storage](3-kind-external-storage/README.md)

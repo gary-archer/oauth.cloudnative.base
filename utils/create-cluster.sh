@@ -19,7 +19,7 @@ fi
 #
 # Run the load balancer
 #
-../utils/load-balancer.sh
+./load-balancer.sh
 if [ $? -ne 0 ]; then
   echo '*** Problem encountered running the load balancer'
   exit 1

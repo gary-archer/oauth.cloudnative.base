@@ -1,4 +1,6 @@
-# Node High Availability
+# Cluster High Availability
+
+This should survive cluster restarts, using storage on the host computer.
 
 ## Dynamic Provisioning
 

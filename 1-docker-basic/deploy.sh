@@ -1,8 +1,8 @@
 #!/bin/bash
 
-##################################################
-# A basic Docker deployment of Wordpress and MySQL
-##################################################
+#############################################################
+# The simplest Docker-based deployment of Wordpress and MySQL
+#############################################################
 
 cd "$(dirname "${BASH_SOURCE[0]}")"
 

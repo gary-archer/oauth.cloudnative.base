@@ -7,19 +7,11 @@
 cd "$(dirname "${BASH_SOURCE[0]}")"
 
 #
-# Create a KIND cluster that uses a rancher dynamic volume provisioner
-#
-./teardown.sh
-kind create cluster --name=nodeha --config='./cluster.yaml'
-if [ $? -ne 0 ]; then
-  echo '*** Problem encountered creating the Kubernetes cluster'
-  exit 1
-fi
-
-#
 # Deploy the NGINX ingress controller
 #
-kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/main/deploy/static/provider/kind/deploy.yaml
+helm upgrade --install ingress-nginx ingress-nginx \
+  --repo https://kubernetes.github.io/ingress-nginx \
+  --namespace ingress-nginx --create-namespace
 if [ $? -ne 0 ]; then
   echo '*** Problem encountered creating the ingress controller'
   exit 1
@@ -33,10 +25,8 @@ kubectl wait --namespace ingress-nginx \
   --selector=app.kubernetes.io/component=controller \
   --timeout=90s
 
-#
-# Work around default developer setups not working
-#
-kubectl delete -A ValidatingWebhookConfiguration ingress-nginx-admission
+EXTERNAL_IP=$(kubectl get svc -n ingress-nginx ingress-nginx-controller -o jsonpath='{.status.loadBalancer.ingress[0].ip}')
+echo "The external IP address is $EXTERNAL_IP"
 
 #
 # Create a MySQL secret for passwords
