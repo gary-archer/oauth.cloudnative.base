@@ -22,5 +22,5 @@ Map that to the hostname `wordpress.local` in your hosts file.
 ## Persistent Volumes
 
 The cluster creation now overrides KIND's default storage class to use the host computer.\
-MySQL data and Wordpress files are stored under the `/tmp/hostpath-provisioner` folder:
+MySQL data and Wordpress files are stored under the `/tmp/hostpath-provisioner` folder.\
 You can recreate the whole cluster without data loss.
