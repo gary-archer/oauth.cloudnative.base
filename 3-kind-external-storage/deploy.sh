@@ -7,6 +7,15 @@
 cd "$(dirname "${BASH_SOURCE[0]}")"
 
 #
+# First create persistent volumes
+#
+kubectl apply -f persistent-volumes.yaml
+if [ $? -ne 0 ]; then
+  echo '*** Problem encountered restoring persistent volumes'
+  exit 1
+fi
+
+#
 # Deploy the NGINX ingress controller
 #
 helm upgrade --install ingress-nginx ingress-nginx \
@@ -42,15 +51,25 @@ if [ $? -ne 0 ]; then
 fi
 
 #
-# Create a replicated MySQL using the Helm chart
+# Create the MySQL resources
 #
-helm repo add bitnami https://charts.bitnami.com/bitnami
-helm repo update
-helm install mysql bitnami/mysql -f mysql-helm-values.yaml
+kubectl delete -f mysql.yaml 2>/dev/null
+kubectl apply  -f mysql.yaml
 if [ $? -ne 0 ]; then
-  echo '*** Problem encountered creating the MySQL cluster'
+  echo '*** Problem encountered creating the MySQL component'
   exit 1
 fi
+
+#
+# Alternatively use the Helm chart
+#
+#helm repo add bitnami https://charts.bitnami.com/bitnami
+#helm repo update
+#helm install mysql bitnami/mysql -f mysql-helm-values.yaml
+#if [ $? -ne 0 ]; then
+#  echo '*** Problem encountered creating the MySQL cluster'
+#  exit 1
+#fi
 
 #
 # Create the main Wordpress resources

@@ -1,7 +1,8 @@
-#######################################################################
+###########################################################################
 # Overrides the default KIND storage class to use host computer storage
 # - https://mauilion.dev/posts/kind-pvc
-#######################################################################
+# - https://github.com/kubernetes-sigs/sig-storage-lib-external-provisioner
+###########################################################################
 
 ---
 apiVersion: v1

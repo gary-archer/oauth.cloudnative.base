@@ -7,15 +7,15 @@ apiVersion: kind.x-k8s.io/v1alpha4
 nodes:
 - role: control-plane
   extraMounts:
-  - hostPath: ./kind-pvc-hostpath.yaml
+  - hostPath: ./kind-storageclass-hostpath.yaml
     containerPath: /kind/manifests/default-storage.yaml
   - hostPath: /tmp/hostpath-provisioner
     containerPath: /tmp/hostpath-provisioner
-- role:  worker
+- role: worker
   extraMounts:
   - hostPath: /tmp/hostpath-provisioner
     containerPath: /tmp/hostpath-provisioner
-- role:  worker
+- role: worker
   extraMounts:
   - hostPath: /tmp/hostpath-provisioner
     containerPath: /tmp/hostpath-provisioner

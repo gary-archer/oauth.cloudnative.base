@@ -1,0 +1,46 @@
+#
+# These volumes were initially created automatically by persistent volume claims
+# They were then backed up so that subsequent redeployments maintains existing data from the host
+#
+---
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: pv-mysql-data
+spec:
+  accessModes:
+  - ReadWriteOnce
+  capacity:
+    storage: 1Gi
+  claimRef:
+    apiVersion: v1
+    kind: PersistentVolumeClaim
+    name: mysql-pv-claim
+    namespace: default
+  hostPath:
+    path: /tmp/hostpath-provisioner/mysql-data
+    type: 'DirectoryOrCreate'
+  persistentVolumeReclaimPolicy: Retain
+  storageClassName: standard
+  volumeMode: Filesystem
+---
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: pv-wordpress-data
+spec:
+  accessModes:
+  - ReadWriteOnce
+  capacity:
+    storage: 1Gi
+  claimRef:
+    apiVersion: v1
+    kind: PersistentVolumeClaim
+    name: wp-pv-claim
+    namespace: default
+  hostPath:
+    path: /tmp/hostpath-provisioner/wordpress-data
+    type: 'DirectoryOrCreate'
+  persistentVolumeReclaimPolicy: Retain
+  storageClassName: standard
+  volumeMode: Filesystem
