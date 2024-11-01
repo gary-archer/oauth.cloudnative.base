@@ -17,13 +17,13 @@ if [ $? -ne 0 ]; then
 fi
 
 #
-# Act as an administrator to create KIND specific persistent volumes
+# Act as an administrator to create EKS specific persistent volumes
 #
-kubectl -n wordpress apply -f persistent-volumes.yaml
-if [ $? -ne 0 ]; then
-  echo '*** Problem encountered restoring persistent volumes'
-  exit 1
-fi
+#kubectl -n wordpress apply -f persistent-volumes.yaml
+#if [ $? -ne 0 ]; then
+#  echo '*** Problem encountered restoring persistent volumes'
+#  exit 1
+#fi
 
 #
 # Then deploy the application level components
