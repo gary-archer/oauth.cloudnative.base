@@ -30,8 +30,6 @@ Then run the script to deploy Wordpress and open the system browser once ready:
 ./3-deploy-wordpress.sh
 ```
 
-## Persistent Volumes
+## Data
 
-The cluster creation now overrides KIND's default storage class to use the host computer.\
-MySQL data and Wordpress files are stored under the `/tmp/hostpath-provisioner` folder.\
-You can recreate the whole cluster without data loss.
+MySQL data and Wordpress files are stored under the `/tmp/hostpath-provisioner` folder on the host computer.
