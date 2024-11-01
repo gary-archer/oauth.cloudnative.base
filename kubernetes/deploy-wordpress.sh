@@ -39,8 +39,8 @@ fi
 #
 # Wait for the wordpress URL
 #
-WORDPRESS_URL='http://wordpress.example/wp-admin/install.php'
 echo 'Waiting for Wordpress to become available ...'
+WORDPRESS_URL="$WORDPRESS_BASE_URL/wp-admin/install.php"
 while [ "$(curl -k -s -o /dev/null -w ''%{http_code}'' "$WORDPRESS_URL")" != '200' ]; do
   sleep 2
 done

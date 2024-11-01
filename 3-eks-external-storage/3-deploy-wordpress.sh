@@ -28,4 +28,5 @@ fi
 #
 # Then deploy the application level components
 #
+export WORDPRESS_BASE_URL='http://wordpress.authsamples-k8s.com'
 ../kubernetes/deploy-wordpress.sh
