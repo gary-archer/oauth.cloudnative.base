@@ -1,6 +1,6 @@
 #
-# These volumes were initially created automatically by persistent volume claims
-# They were then backed up so that subsequent redeployments maintains existing data from the host
+# These were initially created automatically by persistent volume claims
+# Act as an administrator to provision them separately to application level deployments
 #
 ---
 apiVersion: v1
@@ -16,7 +16,7 @@ spec:
     apiVersion: v1
     kind: PersistentVolumeClaim
     name: mysql-pv-claim
-    namespace: default
+    namespace: wordpress
   hostPath:
     path: /tmp/hostpath-provisioner/mysql-data
     type: 'DirectoryOrCreate'
@@ -37,7 +37,7 @@ spec:
     apiVersion: v1
     kind: PersistentVolumeClaim
     name: wp-pv-claim
-    namespace: default
+    namespace: wordpress
   hostPath:
     path: /tmp/hostpath-provisioner/wordpress-data
     type: 'DirectoryOrCreate'

@@ -9,14 +9,8 @@ The simplest deployment of the components, for basic sanity checking:
 
 - [A Docker Compose deployment](1-docker-basic/README.md)
 
-## 2. Pod High Availability
+## 2. Local KIND Cluster
 
-Uses the KIND default storage class to survive pod deletion:
+Uses KIND with a custom storage class so that data survives cluster recreation:
 
-- [A KIND deployment using persistent volumes](2-kind-persistent-volume/README.md)
-
-## 3. Cluster High Availability
-
-Uses KIND with a custom storage class to survive cluster recreation:
-
-- [A KIND deployment using external storage](3-kind-external-storage/README.md)
+- [A KIND deployment using external storage](2-kind-external-storage/README.md)

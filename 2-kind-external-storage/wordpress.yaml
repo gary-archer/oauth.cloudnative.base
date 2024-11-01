@@ -78,7 +78,7 @@ metadata:
 spec:
   ingressClassName: nginx
   rules:
-    - host: wordpress.local
+    - host: wordpress.example
       http:
         paths:
           - path: /

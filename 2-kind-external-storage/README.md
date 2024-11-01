@@ -4,20 +4,31 @@ Demonstrates deployment with external storage so that cluster deletion does not 
 
 ## Deployment
 
+Add this ent
+
 Run the following script in a terminal window:
 
 ```bash
-./create-cluster.sh
+./1-create-cluster.sh
 ```
 
 Then run the deployment script in a second terminal window:
 
 ```bash
-./deploy.sh
+./2-deploy-api-gateway.sh
 ```
 
-The script outputs an external IP address for Wordpress.\
-Map that to the hostname `wordpress.local` in your hosts file.
+The script outputs an external IP address for Wordpress that you add to your hosts file:
+
+```text
+172.18.0.5 wordpress.example
+```
+
+Then run the script to deploy Wordpress and open the system browser once ready:
+
+```bash
+./3-deploy-wordpress.sh
+```
 
 ## Persistent Volumes
 
