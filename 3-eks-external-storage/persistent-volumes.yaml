@@ -1,3 +1,4 @@
 #
-# TODO: EBS version
+# These were initially spun up automatically by persistent volume claims and backed up from YAML
+# I act as an administrator to provision these separately to application level deployments
 #

@@ -1,12 +1,10 @@
-# Cluster High Availability
+# KIND External Storage
 
 Demonstrates deployment with external storage so that cluster deletion does not lose data.
 
 ## Deployment
 
-Add this ent
-
-Run the following script in a terminal window:
+Run the following script to create the KIND cluster:
 
 ```bash
 ./1-create-cluster.sh

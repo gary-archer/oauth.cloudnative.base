@@ -1,4 +1,4 @@
-# Cluster High Availability
+# EKS External Storage
 
 Demonstrates deployment with external storage so that cluster deletion does not lose data.
 

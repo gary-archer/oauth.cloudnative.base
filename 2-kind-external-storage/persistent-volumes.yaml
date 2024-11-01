@@ -1,6 +1,6 @@
 #
-# These were initially created automatically by persistent volume claims
-# Act as an administrator to provision them separately to application level deployments
+# These were initially spun up automatically by persistent volume claims and backed up from YAML
+# I act as an administrator to provision these separately to application level deployments
 #
 ---
 apiVersion: v1

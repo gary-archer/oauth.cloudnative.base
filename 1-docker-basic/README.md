@@ -5,7 +5,7 @@ Includes custom Docker image creation and running a MySQL init script.
 
 ## Deployment
 
-Just run the following script:
+Run the following script to run a Docker Compose URL that makes Wordpress available at `http://localhost`:
 
 ```bash
 ./deploy.sh
