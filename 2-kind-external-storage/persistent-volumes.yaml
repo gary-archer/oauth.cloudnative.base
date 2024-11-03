@@ -17,12 +17,12 @@ spec:
     kind: PersistentVolumeClaim
     name: mysql-pv-claim
     namespace: wordpress
-  hostPath:
-    path: /tmp/hostpath-provisioner/mysql-data
-    type: 'DirectoryOrCreate'
   persistentVolumeReclaimPolicy: Retain
   storageClassName: standard
   volumeMode: Filesystem
+  hostPath:
+    path: /tmp/hostpath-provisioner/mysql-data
+    type: 'DirectoryOrCreate'
 ---
 apiVersion: v1
 kind: PersistentVolume
@@ -38,9 +38,9 @@ spec:
     kind: PersistentVolumeClaim
     name: wp-pv-claim
     namespace: wordpress
-  hostPath:
-    path: /tmp/hostpath-provisioner/wordpress-data
-    type: 'DirectoryOrCreate'
   persistentVolumeReclaimPolicy: Retain
   storageClassName: standard
   volumeMode: Filesystem
+  hostPath:
+    path: /tmp/hostpath-provisioner/wordpress-data
+    type: 'DirectoryOrCreate'

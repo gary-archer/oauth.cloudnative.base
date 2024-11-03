@@ -1,6 +1,3 @@
-#
-# The MySQL component
-#
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:

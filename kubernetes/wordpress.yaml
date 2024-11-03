@@ -1,6 +1,3 @@
-#
-# The Wordpress component
-#
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
@@ -70,21 +67,3 @@ spec:
   selector:
     app: wordpress
     tier: frontend
----
-kind: Ingress
-apiVersion: networking.k8s.io/v1
-metadata:
-  name: wordpress-ingress
-spec:
-  ingressClassName: nginx
-  rules:
-    - host: wordpress.example
-      http:
-        paths:
-          - path: /
-            pathType: Prefix
-            backend:
-              service:
-                name: wordpress
-                port:
-                  number: 80

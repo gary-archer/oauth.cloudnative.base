@@ -5,6 +5,7 @@
 #####################################
 
 cd "$(dirname "${BASH_SOURCE[0]}")"
+export WORDPRESS_HOST_NAME='wordpress.example'
 
 #
 # Create the Wordpress namespace in which to deploy application level resources
@@ -26,7 +27,16 @@ if [ $? -ne 0 ]; then
 fi
 
 #
+# Create the final ingress using the hostname
+#
+envsubst < ../kubernetes/ingress-template.yaml > ../kubernetes/ingress.yaml
+if [ $? -ne 0 ]; then
+  echo '*** Problem encountered updating the ingress'
+  exit 1
+fi
+kubectl -n wordpress apply -f ../kubernetes/ingress.yaml
+
+#
 # Then deploy the application level components
 #
-export WORDPRESS_BASE_URL='http://wordpress.example'
 ../kubernetes/deploy-wordpress.sh

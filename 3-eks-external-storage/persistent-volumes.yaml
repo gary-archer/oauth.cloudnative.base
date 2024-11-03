@@ -2,3 +2,45 @@
 # These were initially spun up automatically by persistent volume claims and backed up from YAML
 # I act as an administrator to provision these separately to application level deployments
 #
+---
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: pv-mysql-data
+spec:
+  accessModes:
+  - ReadWriteOnce
+  capacity:
+    storage: 1Gi
+  claimRef:
+    apiVersion: v1
+    kind: PersistentVolumeClaim
+    name: mysql-pv-claim
+    namespace: wordpress
+  persistentVolumeReclaimPolicy: Retain
+  storageClassName: standard
+  csi:
+    driver: ebs.csi.aws.com
+    fsType: ext4
+    volumeHandle: {EBS volume ID}
+---
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: pv-wordpress-data
+spec:
+  accessModes:
+  - ReadWriteOnce
+  capacity:
+    storage: 1Gi
+  claimRef:
+    apiVersion: v1
+    kind: PersistentVolumeClaim
+    name: wp-pv-claim
+    namespace: wordpress
+  persistentVolumeReclaimPolicy: Retain
+  storageClassName: standard
+  csi:
+    driver: ebs.csi.aws.com
+    fsType: ext4
+    volumeHandle: {EBS volume ID}
