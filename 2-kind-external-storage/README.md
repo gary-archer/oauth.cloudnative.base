@@ -1,6 +1,7 @@
 # KIND External Storage
 
-Demonstrates deployment with external storage so that cluster deletion does not lose data.
+Demonstrates deployment with external storage so that cluster deletion does not lose data.\
+MySQL data and Wordpress files are stored under the `/tmp/hostpath-provisioner` folder on the host computer.
 
 ## Deployment
 
@@ -27,7 +28,3 @@ Then run the script to deploy Wordpress and open the system browser once ready:
 ```bash
 ./3-deploy-wordpress.sh
 ```
-
-## Data
-
-MySQL data and Wordpress files are stored under the `/tmp/hostpath-provisioner` folder on the host computer.

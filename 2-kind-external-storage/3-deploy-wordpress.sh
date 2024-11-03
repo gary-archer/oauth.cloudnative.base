@@ -20,9 +20,19 @@ fi
 #
 # Act as an administrator to create KIND specific persistent volumes
 #
-kubectl -n wordpress apply -f persistent-volumes.yaml
+kubectl delete -f persistent-volumes.yaml 
+kubectl apply  -f persistent-volumes.yaml
 if [ $? -ne 0 ]; then
   echo '*** Problem encountered restoring persistent volumes'
+  exit 1
+fi
+
+#
+# Then deploy the application level components
+#
+../kubernetes/deploy-wordpress.sh
+if [ $? -ne 0 ]; then
+  echo '*** Problem encountered updating wordpress resources'
   exit 1
 fi
 
@@ -35,8 +45,3 @@ if [ $? -ne 0 ]; then
   exit 1
 fi
 kubectl -n wordpress apply -f ../kubernetes/ingress.yaml
-
-#
-# Then deploy the application level components
-#
-../kubernetes/deploy-wordpress.sh

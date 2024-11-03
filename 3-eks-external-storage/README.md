@@ -22,7 +22,3 @@ I then run the script to deploy Wordpress and open the system browser once ready
 ```bash
 ./3-deploy-wordpress.sh
 ```
-
-## Data
-
-TOOD
