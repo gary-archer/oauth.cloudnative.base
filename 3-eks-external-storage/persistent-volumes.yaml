@@ -7,9 +7,6 @@ apiVersion: v1
 kind: PersistentVolume
 metadata:
   name: pv-mysql-data
-  labels:
-    failure-domain.beta.kubernetes.io/region: eu-west-2c
-    failure-domain.beta.kubernetes.io/zone: us-east-2b
 spec:
   accessModes:
   - ReadWriteOnce
@@ -24,7 +21,7 @@ spec:
   storageClassName: standard
   csi:
     driver: ebs.csi.aws.com
-    volumeHandle: vol-09729af0b85a98592
+    volumeHandle: vol-045c99b7366359f9e
 ---
 apiVersion: v1
 kind: PersistentVolume
@@ -44,5 +41,5 @@ spec:
   storageClassName: standard
   csi:
     driver: ebs.csi.aws.com
-    volumeHandle:	vol-01e3462a19304d99f
+    volumeHandle: vol-0fa6d01d5386aeb8a
   

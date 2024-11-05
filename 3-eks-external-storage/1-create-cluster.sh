@@ -20,8 +20,16 @@ helm repo update
 helm upgrade --install aws-ebs-csi-driver \
     --namespace kube-system \
     aws-ebs-csi-driver/aws-ebs-csi-driver
- 
+if [ $? -ne 0 ]; then
+  echo '*** Problem encountered deploying the EBS CSI driver'
+  exit 1
+fi
+
 #
 # Create a custom storage class to use EBS with gp3
 #
 kubectl apply -f cluster/custom-storageclass.yaml
+if [ $? -ne 0 ]; then
+  echo '*** Problem encountered deploying the custom storage class'
+  exit 1
+fi

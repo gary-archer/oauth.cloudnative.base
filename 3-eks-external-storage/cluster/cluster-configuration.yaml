@@ -11,5 +11,7 @@ nodeGroups:
   instanceType: t3.medium
   desiredCapacity: 2
   volumeSize: 20
+  availabilityZones:
+  - eu-west-2a
   ssh:
     publicKeyPath: ~/.ssh/eks_rsa.pub

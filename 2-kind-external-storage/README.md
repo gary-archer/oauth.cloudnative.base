@@ -23,7 +23,7 @@ The script outputs an external IP address for Wordpress that you add to your hos
 172.18.0.5 wordpress.example
 ```
 
-Then run the script to deploy Wordpress and open the system browser once ready:
+Then run the script to deploy Wordpress components:
 
 ```bash
 ./3-deploy-wordpress.sh

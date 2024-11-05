@@ -5,7 +5,7 @@ metadata:
 spec:
   ingressClassName: nginx
   rules:
-    - host: $WORDPRESS_HOST_NAME
+    - host: api.authsamples-k8s.com
       http:
         paths:
           - path: /

@@ -5,7 +5,6 @@
 #####################################
 
 cd "$(dirname "${BASH_SOURCE[0]}")"
-export WORDPRESS_HOST_NAME='wordpress.example'
 
 #
 # Create the Wordpress namespace in which to deploy application level resources
@@ -20,7 +19,7 @@ fi
 #
 # Act as an administrator to create KIND specific persistent volumes
 #
-kubectl delete -f persistent-volumes.yaml 
+kubectl delete -f persistent-volumes.yaml  2>/dev/null
 kubectl apply  -f persistent-volumes.yaml
 if [ $? -ne 0 ]; then
   echo '*** Problem encountered restoring persistent volumes'
@@ -28,20 +27,40 @@ if [ $? -ne 0 ]; then
 fi
 
 #
-# Then deploy the application level components
+# Create a MySQL secret for passwords
 #
-../kubernetes/deploy-wordpress.sh
+kubectl -n wordpress create secret generic mysql-passwords \
+  --from-literal=mysql-root-password='Password1' \
+  --from-literal=mysql-replication-password='Password1' \
+  --from-literal=mysql-password='Password1'
 if [ $? -ne 0 ]; then
-  echo '*** Problem encountered updating wordpress resources'
+  echo '*** Problem encountered creating MySQL secrets'
   exit 1
 fi
 
 #
-# Create the final ingress using the hostname
+# Create the MySQL resources
 #
-envsubst < ../kubernetes/ingress-template.yaml > ../kubernetes/ingress.yaml
+kubectl -n wordpress apply -f ../resources/mysql.yaml
 if [ $? -ne 0 ]; then
-  echo '*** Problem encountered updating the ingress'
+  echo '*** Problem encountered creating the MySQL component'
   exit 1
 fi
-kubectl -n wordpress apply -f ../kubernetes/ingress.yaml
+
+#
+# Create the Wordpress resources
+#
+kubectl -n wordpress apply  -f ../resources/wordpress.yaml
+if [ $? -ne 0 ]; then
+  echo '*** Problem encountered creating the Wordpress component'
+  exit 1
+fi
+
+#
+# Create the ingress
+#
+kubectl -n wordpress apply -f ingress.yaml
+if [ $? -ne 0 ]; then
+  echo '*** Problem encountered creating the Wordpress ingress'
+  exit 1
+fi
