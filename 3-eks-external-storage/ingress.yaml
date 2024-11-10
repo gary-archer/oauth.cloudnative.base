@@ -2,6 +2,8 @@ kind: Ingress
 apiVersion: networking.k8s.io/v1
 metadata:
   name: wordpress-ingress
+  #annotations:
+  #  kubernetes.io/ingress.class: alb
 spec:
   ingressClassName: nginx
   rules:

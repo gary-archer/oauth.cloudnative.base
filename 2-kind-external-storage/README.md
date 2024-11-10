@@ -11,10 +11,16 @@ Run the following script to create the KIND cluster:
 ./1-create-cluster.sh
 ```
 
-Then run the deployment script in a second terminal window:
+Then deploy a development load balancer outside of the cluster:
 
 ```bash
-./2-deploy-api-gateway.sh
+./2-create-load-balancer.sh
+```
+
+Then create an API gateway in another terminal window:
+
+```bash
+./3-deploy-api-gateway.sh
 ```
 
 The script outputs an external IP address for Wordpress that you add to your hosts file:
@@ -26,5 +32,11 @@ The script outputs an external IP address for Wordpress that you add to your hos
 Then run the script to deploy Wordpress components:
 
 ```bash
-./3-deploy-wordpress.sh
+./4-deploy-wordpress.sh
+```
+
+When finished testing, tear down the cluster:
+
+```bash
+./5-delete-cluster.sh
 ```

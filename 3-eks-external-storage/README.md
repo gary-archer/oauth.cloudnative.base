@@ -10,17 +10,29 @@ Run the following script in a terminal window:
 ./1-create-cluster.sh
 ```
 
-Then run the deployment script in a second terminal window.\
+Then deploy a development load balancer outside of the cluster:
+
+```bash
+./2-create-load-balancer.sh
+```
+
+Then run the deployment script in another terminal window.\
 I use Route 53 to map the IP address to `http://wordpress.authsamples-k8s.com`:
 
 ```bash
-./2-deploy-api-gateway.sh
+./3-deploy-api-gateway.sh
 ```
 
 Follow the EBS notes below and then run the script to deploy Wordpress components:
 
 ```bash
-./3-deploy-wordpress.sh
+./4-deploy-wordpress.sh
+```
+
+When finished testing, tear down the cluster:
+
+```bash
+./5-delete-cluster.sh
 ```
 
 ## Elastic Block Storage
