@@ -17,16 +17,6 @@ if [ $? -ne 0 ]; then
 fi
 
 #
-# Act as an administrator to create KIND specific persistent volumes
-#
-kubectl delete -f persistent-volumes.yaml 2>/dev/null
-kubectl apply  -f persistent-volumes.yaml
-if [ $? -ne 0 ]; then
-  echo '*** Problem encountered restoring persistent volumes'
-  exit 1
-fi
-
-#
 # Create a MySQL secret for passwords
 #
 kubectl -n wordpress create secret generic mysql-passwords \
