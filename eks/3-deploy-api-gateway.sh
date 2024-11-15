@@ -1,17 +1,20 @@
 #!/bin/bash
 
-######################################################
+#################################################################################
 # Deploy the API gateway to get an external IP address
-######################################################
+#- https://github.com/kubernetes/ingress-nginx/blob/main/docs/deploy/index.md#aws
+#################################################################################
 
 cd "$(dirname "${BASH_SOURCE[0]}")"
 
 #
-# Deploy the NGINX ingress controller
+# Deploy the NGINX ingress controller and use an AWS network load balancer
 #
 helm upgrade --install ingress-nginx ingress-nginx \
   --repo https://kubernetes.github.io/ingress-nginx \
-  --namespace ingress-nginx --create-namespace
+  --namespace ingress-nginx \
+  --create-namespace \
+  --set-string controller.service.annotations."service\.beta\.kubernetes\.io/aws-load-balancer-type"="nlb"
 if [ $? -ne 0 ]; then
   echo '*** Problem encountered creating the ingress controller'
   exit 1

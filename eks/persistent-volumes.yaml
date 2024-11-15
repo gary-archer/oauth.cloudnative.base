@@ -21,7 +21,7 @@ spec:
   storageClassName: standard
   csi:
     driver: ebs.csi.aws.com
-    volumeHandle: vol-045c99b7366359f9e
+    volumeHandle: vol-082a989477e7cdf3c
 ---
 apiVersion: v1
 kind: PersistentVolume
@@ -41,5 +41,6 @@ spec:
   storageClassName: standard
   csi:
     driver: ebs.csi.aws.com
-    volumeHandle: vol-0fa6d01d5386aeb8a
+    volumeHandle: vol-0ed05252b400615c7
+
   

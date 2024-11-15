@@ -3,20 +3,14 @@
 A repo to rehearse Kubernetes data deployment scenarios, primarily on a development computer.\
 The example uses simple Wordpress and MySQL components.
 
-## 1. Docker Basic
+## Local KIND Cluster
 
-A local deployment for basic sanity checking of the underlying components:
+Uses KIND with external data storage and load balancing:
 
-- [A Docker Compose deployment](1-docker-basic/README.md)
+- [A KIND base deployment](kind/README.md)
 
-## 2. Local KIND Cluster
+## AWS EKS Cluster
 
-Uses KIND with a host computer storage class so that data survives cluster recreation:
+Uses EKS with external data storage and load balancing:
 
-- [A KIND deployment using external storage](2-kind-external-storage/README.md)
-
-## 3. AWS EKS Cluster
-
-Uses EKS with RAID-like Elastic Block Storage so that data survives cluster recreation:
-
-- [An EKS deployment using external storage](3-eks-external-storage/README.md)
+- [An EKS base deployment](eks/README.md)
