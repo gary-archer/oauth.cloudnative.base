@@ -1,8 +1,8 @@
-###################################################################################
+#########################################################################
 # Configure the load balancer to use TLS passthrough to NGINX
-# The AWS load balancer controller applies the annotations to the AWS load balancer
-# I use a static Elastic IP address of 18.168.121.141 for the load balancer
-###################################################################################
+# The AWS load balancer controller enables finer control over annotations
+# The load balancer uses a fixed external IP address of 18.168.121.141
+#########################################################################
 controller:
   replicaCount: 2
   service:
