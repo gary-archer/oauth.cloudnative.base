@@ -1,6 +1,6 @@
 # EKS Base Deployment
 
-Demonstrates cloud deployment to set up a cluster, hard disk storage and DNS entry points.
+Demonstrates AWS cloud deployment to set up a cluster, hard disk storage and DNS entry points.
 
 ## Deployment
 

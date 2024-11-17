@@ -19,6 +19,20 @@ if [ "$WORDPRESS_HOSTNAME" == '' ]; then
 fi
 
 #
+# Ensure that persistent volumes are in a valid state to bind claims to
+#
+MYSQL_STATUS="$(kubectl get pv pv-mysql-data -o 'jsonpath={..status.phase}')"
+if [ "$MYSQL_STATUS" != 'Available' ] && [ "$MYSQL_STATUS" != 'Bound' ]; then
+  echo '*** MySQL persistent volume is not available'
+  exit 1
+fi
+WORDPRESS_STATUS="$(kubectl get pv pv-wordpress-data -o 'jsonpath={..status.phase}')"
+if [ "$WORDPRESS_STATUS" != 'Available' ] && [ "$WORDPRESS_STATUS" != 'Bound' ]; then
+  echo '*** Wordpress persistent volume is not available'
+  exit 1
+fi
+
+#
 # Create the final Wordpress yaml file from the template file
 #
 envsubst < ./wordpress-template.yaml > ./wordpress.yaml
@@ -38,17 +52,18 @@ if [ $? -ne 0 ]; then
 fi
 
 #
-# Wait for persistent volumes to be released to avoid creating new ones when we redeploy
+# Ensure that persistent volumes are in the expected state be released to avoid creating new ones when we redeploy
 #
-echo "waiting for persistent volumes to be released ..."
-while [[ $(kubectl get pv pv-mysql-data     -o 'jsonpath={..status.phase}') != 'Available' ]]; do
-  echo -n '.'
+MYSQL_STATUS="$(kubectl get pv pv-mysql-data -o 'jsonpath={..status.phase}')"
+if [ "$MYSQL_STATUS" != 'Available' ] && [ "$MYSQL_STATUS" != 'Bound' ]; then
+  echo '*** MySQL persistent volume is not available'
   sleep 1;
-done
-while [[ $(kubectl get pv pv-wordpress-data -o 'jsonpath={..status.phase}') != 'Available' ]]; do
-  echo -n '.'
+fi
+WORDPRESS_STATUS="$(kubectl get pv pv-wordpress-data -o 'jsonpath={..status.phase}')"
+if [ "$WORDPRESS_STATUS" != 'Available' ] && [ "$WORDPRESS_STATUS" != 'Bound' ]; then
+  echo '*** Wordpress persistent volume is not available'
   sleep 1;
-done
+fi
 
 #
 # Create a MySQL secret for passwords
