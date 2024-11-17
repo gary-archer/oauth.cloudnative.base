@@ -2,6 +2,8 @@ kind: Ingress
 apiVersion: networking.k8s.io/v1
 metadata:
   name: wordpress-ingress
+  annotations:
+    cert-manager.io/cluster-issuer: letsencrypt
 spec:
   ingressClassName: nginx
   rules:
@@ -15,3 +17,7 @@ spec:
                 name: wordpress
                 port:
                   number: 80
+  tls:
+    - hosts:
+        - wordpress.authsamples-k8s.com
+      secretName: wordpress-ssl

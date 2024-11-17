@@ -58,3 +58,12 @@ if [ $? -ne 0 ]; then
   echo '*** Problem encountered installing AWS load balancer controller'
   exit 1
 fi
+
+#
+# Next install cert-manager so that the API gateway can request an SSL certificate for its host names
+#
+kubectl apply -f https://github.com/cert-manager/cert-manager/releases/download/v1.16.1/cert-manager.yaml
+if [ $? -ne 0 ]; then
+  echo '*** Problem encountered getting cert-manager resources'
+  exit 1
+fi

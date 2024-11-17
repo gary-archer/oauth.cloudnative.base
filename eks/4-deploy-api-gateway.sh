@@ -32,9 +32,18 @@ fi
 #
 export EXTERNAL_IP_ALLOCATION_ID
 export SUBNET_ID
-envsubst < ./helm/gateway-values-template.yaml > ./helm/gateway-values.yaml
+envsubst < ./gateway/helm-values-template.yaml > ./gateway/helm-values.yaml
 if [ $? -ne 0 ]; then
   echo '*** Problem encountered updating the Helm gateway values file'
+  exit 1
+fi
+
+#
+# Create a cluster issuer for the API gateway's host names, so that ingress resources can be created in any namespace
+#
+kubectl apply -f gateway/cluster-issuer.yaml
+if [ $? -ne 0 ]; then
+  echo '*** Problem encountered creating the cluster issuer for the gateway SSL certificate'
   exit 1
 fi
 
@@ -45,7 +54,7 @@ helm upgrade --install ingress-nginx ingress-nginx \
   --repo https://kubernetes.github.io/ingress-nginx \
   --namespace ingress-nginx \
   --create-namespace \
-  --values=./helm/gateway-values.yaml
+  --values=./gateway/helm-values.yaml
 if [ $? -ne 0 ]; then
   echo '*** Problem encountered creating the ingress controller'
   exit 1

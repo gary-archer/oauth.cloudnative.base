@@ -7,6 +7,7 @@ controller:
   replicaCount: 2
   service:
     type: LoadBalancer
+    enableHttp: false
     annotations:
       service.beta.kubernetes.io/aws-load-balancer-proxy-protocol: '*'
       service.beta.kubernetes.io/aws-load-balancer-type: 'external'
