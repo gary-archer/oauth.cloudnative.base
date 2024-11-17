@@ -64,9 +64,8 @@ echo "The external IP address is $EXTERNAL_IP"
 #
 # Get the API gateway's self-signed root CA so that we can configure trust for it, e.g. in the browser
 #
-kubectl get secret/external-root-secret -o jsonpath="{.data['tls\.crt']}" | base64 -d > ./resources/rootca.crt
+kubectl -n cert-manager get secret/external-root-secret -o jsonpath="{.data['tls\.crt']}" | base64 -d > ./resources/rootca.crt
 if [ $? -ne 0 ]; then
   echo '*** Unable to get the root certificate for the API gateway'
   exit 1
 fi
-
