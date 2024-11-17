@@ -26,7 +26,7 @@ kubectl wait --namespace cert-manager \
 sleep 10
 
 #
-# Create a cluster issuer for the API gateway's host names, so that ingress resources can be created in any namespace
+# Create a cluster issuer for the API gateway's host names, so that ingress certificates can be created in any namespace
 #
 kubectl -n cert-manager apply -f ./resources/cluster-issuer.yaml
 if [ $? -ne 0 ]; then

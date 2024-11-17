@@ -71,7 +71,8 @@ if [ $? -ne 0 ]; then
 fi
 
 #
-# Create the final persistent volumes YAML from IDs
+# I precreated Elastic Block Storage volumes (hard disks) with known volume IDs.
+# Configure the persistent volumes resources from these fixed IDs.
 #
 export MYSQL_VOLUME_ID
 export WORDPRESS_VOLUME_ID

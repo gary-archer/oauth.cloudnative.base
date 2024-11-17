@@ -34,7 +34,7 @@ if [ $? -ne 0 ]; then
 fi
 
 #
-# Get the ID of the preconfigured Elastic IP address of 18.168.121.141
+# I precreated and tagged an Elastic IP address of 18.168.121.141 to represent the API gateway's external IP address
 #
 EXTERNAL_IP_NAME='wordpress'
 EXTERNAL_IP_ALLOCATION_ID=$(aws ec2 describe-addresses --filters "Name=tag:Name,Values=$EXTERNAL_IP_NAME" --query "Addresses[].AllocationId" --output text)
@@ -44,7 +44,7 @@ if [ "$EXTERNAL_IP_ALLOCATION_ID" == '' ]; then
 fi
 
 #
-# Get the ID of the public subnet for the AWS availability zone where the cluster runs
+# Get the ID of the public subnet for the AWS availability zone where the cluster runs, which has a fixed name
 #
 SUBNET_NAME='eksctl-example-cluster/SubnetPublicEUWEST2A'
 SUBNET_ID=$(aws ec2 describe-subnets --filters "Name=tag:Name,Values=$SUBNET_NAME" --query "Subnets[].SubnetId" --output text)
@@ -54,7 +54,7 @@ if [ "$SUBNET_ID" == '' ]; then
 fi
 
 #
-# Create the final nginx-helm-values.yaml file from the runtime IDs
+# Create the final nginx-helm-values.yaml file from the calculated IDs
 #
 export EXTERNAL_IP_ALLOCATION_ID
 export SUBNET_ID
@@ -78,7 +78,6 @@ if [ $? -ne 0 ]; then
 fi
 
 #
-# When using this deployment I configure AWS Route 53 to point wordpress.authsamples-k8s.com to the external IP address
-# After a couple of minutes the following command confirms a mapping to 18.168.121.141
+# In AWS Route 53 I created an A record for wordpress.authsamples-k8s.com that points to the external IP address:
 # - dig wordpress.authsamples-k8s.com
 #

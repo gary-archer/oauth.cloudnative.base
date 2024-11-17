@@ -38,3 +38,4 @@ POLICY_ARN=$(aws iam list-policies --query "Policies[?PolicyName==\`$LBC_POLICY_
 if [ "$POLICY_ARN" == '' ]; then
   aws iam delete-policy --policy-arn $POLICY_ARN
 fi
+
