@@ -13,14 +13,15 @@ cd "$(dirname "${BASH_SOURCE[0]}")"
 CLUSTER_NAME='example'
 AWS_ACCOUNT_ID='090109105180'
 AWS_REGION='eu-west-2'
-POLICYNAME='AWSLoadBalancerControllerIAMPolicy'
+SERVICE_ACCOUNT_NAME='aws-load-balancer-controller'
+POLICY_NAME='AWSLoadBalancerControllerIAMPolicy'
 
 #
 # Create an IAM inline policy to grant the load balancer controller EC2 load balancing permissions
 # https://raw.githubusercontent.com/kubernetes-sigs/aws-load-balancer-controller/v2.10.0/docs/install/iam_policy.json
 #
 aws iam create-policy \
-  --policy-name $POLICYNAME \
+  --policy-name $POLICY_NAME \
   --policy-document file://iam-policies/lbc-policy.json
 if [ $? -ne 0 ]; then
   echo '*** Problem encountered creating the AWS load balancer controller policy'
@@ -33,8 +34,8 @@ fi
 eksctl create iamserviceaccount \
   --cluster=$CLUSTER_NAME \
   --namespace=kube-system \
-  --name=aws-load-balancer-controller \
-  --attach-policy-arn=arn:aws:iam::$AWS_ACCOUNT_ID:policy/$POLICYNAME \
+  --name=$SERVICE_ACCOUNT_NAME \
+  --attach-policy-arn=arn:aws:iam::$AWS_ACCOUNT_ID:policy/$POLICY_NAME \
   --override-existing-serviceaccounts \
   --region $AWS_REGION \
   --approve
@@ -52,7 +53,7 @@ helm upgrade --install aws-load-balancer-controller eks/aws-load-balancer-contro
   -n kube-system \
   --set clusterName=$CLUSTER_NAME \
   --set serviceAccount.create=false \
-  --set serviceAccount.name=aws-load-balancer-controller
+  --set serviceAccount.name=$SERVICE_ACCOUNT_NAME
 if [ $? -ne 0 ]; then
   echo '*** Problem encountered installing AWS load balancer controller'
   exit 1

@@ -12,12 +12,18 @@ cd "$(dirname "${BASH_SOURCE[0]}")"
 CLUSTER_NAME='example'
 AWS_ACCOUNT_ID='090109105180'
 AWS_REGION='eu-west-2'
-POLICYNAME='AWSLoadBalancerControllerIAMPolicy'
+EBS_POLICY_NAME='EBSCSIDriverIAMPolicy'
+LBC_POLICY_NAME='AWSLoadBalancerControllerIAMPolicy'
 
 #
-# Delete the load balancer IAM policy
+# Delete IAM policies
 #
-POLICY_ARN=$(aws iam list-policies --query "Policies[?PolicyName==\`$POLICYNAME\`].Arn" --output text)
+POLICY_ARN=$(aws iam list-policies --query "Policies[?PolicyName==\`$EBS_POLICY_NAME\`].Arn" --output text)
+if [ "$POLICY_ARN" == '' ]; then
+  aws iam delete-policy --policy-arn $POLICY_ARN
+fi
+
+POLICY_ARN=$(aws iam list-policies --query "Policies[?PolicyName==\`$LBC_POLICY_NAME\`].Arn" --output text)
 if [ "$POLICY_ARN" == '' ]; then
   aws iam delete-policy --policy-arn $POLICY_ARN
 fi
