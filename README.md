@@ -1,4 +1,4 @@
-# Cloud Native Data
+# Cloud Native Base Setup
 
 A repo to demonstrate Kubernetes equivalence between a development computer and the AWS cloud.\
 The example deploys Wordpress exposed over HTTPS with MySQL data storage.
