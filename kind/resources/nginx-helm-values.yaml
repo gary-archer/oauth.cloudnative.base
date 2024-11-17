@@ -1,0 +1,8 @@
+############################################################################
+# Configure NGINX to receive TLS passthrough requests from the load balancer
+############################################################################
+controller:
+  replicaCount: 1
+  service:
+    type: LoadBalancer
+    enableHttp: false
