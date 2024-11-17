@@ -8,9 +8,18 @@
 cd "$(dirname "${BASH_SOURCE[0]}")"
 
 #
-# Point to a preconfigured Elastic IP address and calculate the subnet ID
+# Get the ID of a preconfigured Elastic IP address of 18.168.121.141
 #
-EXTERNAL_IP_ADDRESS_REF='eipalloc-0a1580d8c176bda67'
+EXTERNAL_IP_NAME='wordpress'
+EXTERNAL_IP_ALLOCATION_ID=$(aws ec2 describe-addresses --filters "Name=tag:Name,Values=$EXTERNAL_IP_NAME" --query "Addresses[].AllocationId" --output text)
+if [ "$EXTERNAL_IP_ALLOCATION_ID" == '' ]; then
+  echo '*** Unable to find the allocation ID for the Elastic IP address'
+  exit 1
+fi
+
+#
+# Get the ID of the public subnet for the AWS availability zone where the cluster runs
+#
 SUBNET_NAME='eksctl-example-cluster/SubnetPublicEUWEST2A'
 SUBNET_ID=$(aws ec2 describe-subnets --filters "Name=tag:Name,Values=$SUBNET_NAME" --query "Subnets[].SubnetId" --output text)
 if [ "$SUBNET_ID" == '' ]; then
@@ -21,7 +30,7 @@ fi
 #
 # Create the final gateway-values.yaml file with the runtime subnet ID
 #
-export EXTERNAL_IP_ADDRESS_REF
+export EXTERNAL_IP_ALLOCATION_ID
 export SUBNET_ID
 envsubst < ./helm/gateway-values-template.yaml > ./helm/gateway-values.yaml
 if [ $? -ne 0 ]; then
@@ -51,7 +60,7 @@ kubectl wait --namespace ingress-nginx \
   --timeout=90s
 
 #
-# Get the external host name
+# When using this deployment I configure AWS Route 53 to point wordpress.authsamples-k8s.com to the Elastic IP
+# After a couple of minutes the following command confirms that mapping
+# - dig wordpress.authsamples-k8s.com
 #
-EXTERNAL_HOST_NAME=$(kubectl get svc -n ingress-nginx ingress-nginx-controller -o jsonpath='{.status.loadBalancer.ingress[0].hostname}')
-echo "The external host name is $EXTERNAL_HOST_NAME"

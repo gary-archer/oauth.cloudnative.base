@@ -14,7 +14,7 @@ controller:
       service.beta.kubernetes.io/aws-load-balancer-scheme: internet-facing
       service.beta.kubernetes.io/aws-load-balancer-backend-protocol: tcp
       service.beta.kubernetes.io/aws-load-balancer-subnets: '$SUBNET_ID'
-      service.beta.kubernetes.io/aws-load-balancer-eip-allocations: '$EXTERNAL_IP_ADDRESS_REF'
+      service.beta.kubernetes.io/aws-load-balancer-eip-allocations: '$EXTERNAL_IP_ALLOCATION_ID'
 
   config:
     use-proxy-protocol: 'true'

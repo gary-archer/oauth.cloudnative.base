@@ -27,7 +27,7 @@ An AWS load balancer controller inside the cluster is given permissions to creat
 ```
 
 Then create an API gateway inside the cluster which also triggers creation of a network load balancer.\
-The load balancer host name uses a static IP address and I map the host name to the Wordpress domain name in AWS Route 53.\
+The load balancer uses a static IP address that I map to the Wordpress domain name in AWS Route 53.\
 The load balancer uses TLS passthrough to route all requests to the API gateway entry point to the cluster.
 
 ```bash
