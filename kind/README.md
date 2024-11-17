@@ -11,23 +11,20 @@ Run the following script to create the KIND cluster:
 ./1-create-cluster.sh
 ```
 
-Then deploy a development load balancer outside of the cluster:
+Next install load balancer prerequisites to enable external access to the cluster:
 
 ```bash
-./2-create-load-balancer.sh
+./2-prepare-load-balancer.sh
 ```
 
-Then create an API gateway in another terminal window:
+Then create an API gateway inside the cluster which also triggers assignment of an external IP address.\
+The script outputs the load balancer's external IP address which you map to `wordpress.example` in your hosts file.\
+The load balancer uses TLS passthrough to route all requests to the API gateway entry point to the cluster.
 
 ```bash
 ./3-deploy-api-gateway.sh
 ```
 
-The script outputs an external IP address for Wordpress that you add to your hosts file:
-
-```text
-172.18.0.5 wordpress.example
-```
 
 Then run the script to deploy Wordpress components:
 
