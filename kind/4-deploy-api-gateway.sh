@@ -62,7 +62,7 @@ EXTERNAL_IP=$(kubectl get svc -n ingress-nginx ingress-nginx-controller -o jsonp
 echo "The external IP address is $EXTERNAL_IP"
 
 #
-# Get the API gateway's self-signed root CA so that we can configure trust for it, e.g. in the browser
+# Get the API gateway's self-signed root CA so that you can configure trust for it, e.g. in the browser
 #
 kubectl -n cert-manager get secret/external-root-secret -o jsonpath="{.data['tls\.crt']}" | base64 -d > ./resources/rootca.crt
 if [ $? -ne 0 ]; then

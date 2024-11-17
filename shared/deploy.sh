@@ -54,9 +54,9 @@ done
 # Create a MySQL secret for passwords
 #
 kubectl -n wordpress create secret generic mysql-passwords \
-  --from-literal=mysql-root-password="$$MYSQL_PASSWORD" \
-  --from-literal=mysql-replication-password="$$MYSQL_PASSWORD" \
-  --from-literal=mysql-password="$$MYSQL_PASSWORD"
+  --from-literal=mysql-root-password="$MYSQL_PASSWORD" \
+  --from-literal=mysql-replication-password="$MYSQL_PASSWORD" \
+  --from-literal=mysql-password="$MYSQL_PASSWORD"
 if [ $? -ne 0 ]; then
   echo '*** Problem encountered creating MySQL secrets'
   exit 1

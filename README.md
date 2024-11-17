@@ -1,7 +1,7 @@
 # Cloud Native Data
 
 A repo to demonstrate Kubernetes equivalence between a development computer and the AWS cloud.\
-The example exposes Wordpress with MySQL storage.
+The example deploys Wordpress exposed over HTTPS with MySQL data storage.
 
 ## Local KIND Cluster
 
