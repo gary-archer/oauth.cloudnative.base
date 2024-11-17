@@ -7,7 +7,7 @@
 cd "$(dirname "${BASH_SOURCE[0]}")"
 
 export MYSQL_PASSWORD='Password1'
-export WORDPRESS_HOSTNAME='wordpress.authsamples-k8s.com'
+export WORDPRESS_HOSTNAME='wordpress.authsamples-k8s-dev.com'
 
 ../shared/deploy.sh
 if [ $? -ne 0 ]; then

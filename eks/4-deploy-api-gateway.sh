@@ -8,7 +8,33 @@
 cd "$(dirname "${BASH_SOURCE[0]}")"
 
 #
-# Get the ID of a preconfigured Elastic IP address of 18.168.121.141
+# First install cert-manager so that the API gateway can request an SSL certificate for its host names
+#
+kubectl apply -f https://github.com/cert-manager/cert-manager/releases/download/v1.16.1/cert-manager.yaml
+if [ $? -ne 0 ]; then
+  echo '*** Problem encountered getting cert-manager resources'
+  exit 1
+fi
+
+#
+# Wait for certmanager pods to come up
+#
+kubectl wait --namespace cert-manager \
+  --for=condition=ready pod \
+  --selector=app.kubernetes.io/component=controller \
+  --timeout=90s
+
+#
+# Create a cluster issuer for the API gateway's host names, so that ingress resources can be created in any namespace
+#
+kubectl apply -f ./resources/cluster-issuer.yaml
+if [ $? -ne 0 ]; then
+  echo '*** Problem encountered creating the cluster issuer for the gateway SSL certificate'
+  exit 1
+fi
+
+#
+# Get the ID of the preconfigured Elastic IP address of 18.168.121.141
 #
 EXTERNAL_IP_NAME='wordpress'
 EXTERNAL_IP_ALLOCATION_ID=$(aws ec2 describe-addresses --filters "Name=tag:Name,Values=$EXTERNAL_IP_NAME" --query "Addresses[].AllocationId" --output text)
@@ -28,48 +54,31 @@ if [ "$SUBNET_ID" == '' ]; then
 fi
 
 #
-# Create the final gateway-values.yaml file with the runtime subnet ID
+# Create the final nginx-helm-values.yaml file from the runtime IDs
 #
 export EXTERNAL_IP_ALLOCATION_ID
 export SUBNET_ID
-envsubst < ./gateway/helm-values-template.yaml > ./gateway/helm-values.yaml
+envsubst < ./resources/nginx-helm-values-template.yaml > ./resources/nginx-helm-values.yaml
 if [ $? -ne 0 ]; then
-  echo '*** Problem encountered updating the Helm gateway values file'
+  echo '*** Problem encountered updating the NGINX Helm values file'
   exit 1
 fi
 
 #
-# Create a cluster issuer for the API gateway's host names, so that ingress resources can be created in any namespace
-#
-kubectl apply -f gateway/cluster-issuer.yaml
-if [ $? -ne 0 ]; then
-  echo '*** Problem encountered creating the cluster issuer for the gateway SSL certificate'
-  exit 1
-fi
-
-#
-# Deploy the NGINX ingress controller and use an AWS network load balancer
+# Deploy the NGINX ingress controller and an AWS network load balancer that passes layer 4 traffic to it
 #
 helm upgrade --install ingress-nginx ingress-nginx \
   --repo https://kubernetes.github.io/ingress-nginx \
   --namespace ingress-nginx \
   --create-namespace \
-  --values=./gateway/helm-values.yaml
+  --values=./resources/nginx-helm-values.yaml
 if [ $? -ne 0 ]; then
   echo '*** Problem encountered creating the ingress controller'
   exit 1
 fi
 
 #
-# Wait for NGINX
-#
-kubectl wait --namespace ingress-nginx \
-  --for=condition=ready pod \
-  --selector=app.kubernetes.io/component=controller \
-  --timeout=90s
-
-#
-# When using this deployment I configure AWS Route 53 to point wordpress.authsamples-k8s.com to the Elastic IP
-# After a couple of minutes the following command confirms that mapping
+# When using this deployment I configure AWS Route 53 to point wordpress.authsamples-k8s.com to the external IP address
+# After a couple of minutes the following command confirms a mapping to 18.168.121.141
 # - dig wordpress.authsamples-k8s.com
 #

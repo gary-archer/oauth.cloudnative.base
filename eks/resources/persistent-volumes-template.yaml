@@ -19,10 +19,9 @@ spec:
     namespace: wordpress
   persistentVolumeReclaimPolicy: Retain
   storageClassName: standard
-  volumeMode: Filesystem
-  hostPath:
-    path: /tmp/hostpath-provisioner/mysql-data
-    type: 'DirectoryOrCreate'
+  csi:
+    driver: ebs.csi.aws.com
+    volumeHandle: $MYSQL_VOLUME_ID
 ---
 apiVersion: v1
 kind: PersistentVolume
@@ -40,7 +39,6 @@ spec:
     namespace: wordpress
   persistentVolumeReclaimPolicy: Retain
   storageClassName: standard
-  volumeMode: Filesystem
-  hostPath:
-    path: /tmp/hostpath-provisioner/wordpress-data
-    type: 'DirectoryOrCreate'
+  csi:
+    driver: ebs.csi.aws.com
+    volumeHandle: $WORDPRESS_VOLUME_ID

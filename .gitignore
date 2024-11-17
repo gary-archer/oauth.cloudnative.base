@@ -1,3 +1,6 @@
 .DS_Store
 download
-helm-values.yaml
+nginx-helm-values.yaml
+persistent-volumes.yaml
+wordpress.yaml
+rootca.crt

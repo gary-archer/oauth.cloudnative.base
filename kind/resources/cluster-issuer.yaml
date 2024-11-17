@@ -1,0 +1,39 @@
+
+#################################################################
+# Configure a self signed issuer and a root CA that it issues
+# The cluster issuer can then issue certificates with the root CA
+#################################################################
+apiVersion: cert-manager.io/v1
+kind: Issuer
+metadata:
+  name: selfsigned-issuer
+spec:
+  selfSigned: {}
+---
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: external-root-ca
+spec:
+  isCA: true
+  duration: 26280h
+  secretName: external-root-secret
+  commonName: external-root-ca
+  subject:
+    organizations:
+      - example
+  privateKey:
+    algorithm: ECDSA
+    size: 256
+  issuerRef:
+    name: selfsigned-issuer
+    kind: Issuer
+    group: cert-manager.io
+---
+apiVersion: cert-manager.io/v1
+kind: ClusterIssuer
+metadata:
+  name: ingress-issuer
+spec:
+  ca:
+    secretName: external-root-secret

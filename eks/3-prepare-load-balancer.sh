@@ -22,7 +22,7 @@ POLICY_NAME='AWSLoadBalancerControllerIAMPolicy'
 #
 aws iam create-policy \
   --policy-name $POLICY_NAME \
-  --policy-document file://iam-policies/lbc-policy.json
+  --policy-document file://resources/lbc-policy.json
 if [ $? -ne 0 ]; then
   echo '*** Problem encountered creating the AWS load balancer controller policy'
   exit 1
@@ -56,14 +56,5 @@ helm upgrade --install aws-load-balancer-controller eks/aws-load-balancer-contro
   --set serviceAccount.name=$SERVICE_ACCOUNT_NAME
 if [ $? -ne 0 ]; then
   echo '*** Problem encountered installing AWS load balancer controller'
-  exit 1
-fi
-
-#
-# Next install cert-manager so that the API gateway can request an SSL certificate for its host names
-#
-kubectl apply -f https://github.com/cert-manager/cert-manager/releases/download/v1.16.1/cert-manager.yaml
-if [ $? -ne 0 ]; then
-  echo '*** Problem encountered getting cert-manager resources'
   exit 1
 fi

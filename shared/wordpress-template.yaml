@@ -80,7 +80,7 @@ metadata:
 spec:
   ingressClassName: nginx
   rules:
-    - host: wordpress.authsamples-k8s-dev.com
+    - host: $WORDPRESS_HOSTNAME
       http:
         paths:
           - path: /
@@ -92,5 +92,5 @@ spec:
                   number: 80
   tls:
     - hosts:
-        - wordpress.authsamples-k8s-dev.com
+        - $WORDPRESS_HOSTNAME
       secretName: wordpress-ssl

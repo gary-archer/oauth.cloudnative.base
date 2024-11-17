@@ -15,6 +15,8 @@ AWS_ACCOUNT_ID='090109105180'
 AWS_REGION='eu-west-2'
 POLICY_NAME='EBSCSIDriverIAMPolicy'
 SERVICE_ACCOUNT_NAME='ebs-csi-controller-sa'
+MYSQL_VOLUME_ID='vol-082a989477e7cdf3c'
+WORDPRESS_VOLUME_ID='vol-0ed05252b400615c7'
 
 #
 # Create an IAM inline policy to grant the load balancer controller EC2 load balancing permissions
@@ -22,7 +24,7 @@ SERVICE_ACCOUNT_NAME='ebs-csi-controller-sa'
 #
 aws iam create-policy \
   --policy-name $POLICY_NAME \
-  --policy-document file://iam-policies/ebs-policy.json
+  --policy-document file://resources/ebs-policy.json
 if [ $? -ne 0 ]; then
   echo '*** Problem encountered creating the EBS CSI driver controller policy'
   exit 1
@@ -62,9 +64,20 @@ fi
 #
 # Create a custom storage class to use EBS with gp3
 #
-kubectl apply -f cluster/custom-storageclass.yaml
+kubectl apply -f resources/custom-storageclass.yaml
 if [ $? -ne 0 ]; then
   echo '*** Problem encountered deploying the custom storage class'
+  exit 1
+fi
+
+#
+# Create the final persistent volumes YAML from IDs
+#
+export MYSQL_VOLUME_ID
+export WORDPRESS_VOLUME_ID
+envsubst < ./resources/persistent-volumes-template.yaml > ./resources/persistent-volumes.yaml
+if [ $? -ne 0 ]; then
+  echo '*** Problem encountered updating persistent volumes yaml with IDs'
   exit 1
 fi
 

@@ -1,7 +1,6 @@
 # EKS Base Deployment
 
-Demonstrates cloud deployment to set up a cluster, a load balancer and data storage.\
-The goal is to minimize vendor specific technology.
+Demonstrates cloud deployment to set up a cluster, hard disk storage and DNS entry points.
 
 ## Deployment
 
@@ -17,7 +16,6 @@ An Elastic Block Storage CSI driver inside the cluster is given permissions to u
 ```bash
 ./2-prepare-persistent-storage.sh
 ```
-
 
 Next install load balancer prerequisites to enable external access to the cluster.\
 An AWS load balancer controller inside the cluster is given permissions to create EC2 load balancers.

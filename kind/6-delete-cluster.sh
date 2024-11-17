@@ -5,4 +5,6 @@
 ###################################
 
 cd "$(dirname "${BASH_SOURCE[0]}")"
-kind delete cluster --name=example
+
+CLUSTER_NAME='example'
+kind delete cluster --name=$CLUSTER_NAME

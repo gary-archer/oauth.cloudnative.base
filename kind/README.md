@@ -1,7 +1,6 @@
 # KIND External Storage
 
-Demonstrates deployment with external storage so that cluster deletion does not lose data.\
-MySQL data and Wordpress files are stored under the `/tmp/hostpath-provisioner` folder on the host computer.
+Demonstrates local deployment to set up a cluster, hard disk storage and DNS entry points.
 
 ## Deployment
 
@@ -11,29 +10,35 @@ Run the following script to create the KIND cluster:
 ./1-create-cluster.sh
 ```
 
+Next prepare persistent volumes to enable local data storage external to the cluster:
+
+```bash
+./2-prepare-persistent-storage.sh
+```
+
 Next install load balancer prerequisites to enable external access to the cluster:
 
 ```bash
-./2-prepare-load-balancer.sh
+./3-prepare-load-balancer.sh
 ```
 
 Then create an API gateway inside the cluster which also triggers assignment of an external IP address.\
-The script outputs the load balancer's external IP address which you map to `wordpress.example` in your hosts file.\
+The script outputs the load balancer's external IP address which you map to `wordpress.authsamples-k8s-dev.com` in your hosts file.\
 The load balancer uses TLS passthrough to route all requests to the API gateway entry point to the cluster.
 
 ```bash
-./3-deploy-api-gateway.sh
+./4-deploy-api-gateway.sh
 ```
 
-
-Then run the script to deploy Wordpress components:
+Application level components use an ingress to integrate with the external load balancer.\
+Application level components use a persistent volume claim to integrate with external data storage:
 
 ```bash
-./4-deploy-wordpress.sh
+./5-deploy-wordpress.sh
 ```
 
 When finished testing, tear down the cluster:
 
 ```bash
-./5-delete-cluster.sh
+./6-delete-cluster.sh
 ```

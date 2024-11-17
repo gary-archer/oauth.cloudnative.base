@@ -10,21 +10,21 @@ cd "$(dirname "${BASH_SOURCE[0]}")"
 # Set parameters
 #
 CLUSTER_NAME='example'
-AWS_ACCOUNT_ID='090109105180'
-AWS_REGION='eu-west-2'
 EBS_POLICY_NAME='EBSCSIDriverIAMPolicy'
 LBC_POLICY_NAME='AWSLoadBalancerControllerIAMPolicy'
 
 #
-# Delete pod disruption budgets to prevent a blocked uninstall
+# If required, delete pod disruption budgets returned from the following command, to prevent a blocked uninstall
+# - kubectl get poddisruptionbudget -A
 #
 kubectl -n kube-system delete poddisruptionbudget/coredns
 kubectl -n kube-system delete poddisruptionbudget/ebs-csi-controller
+kubectl -n ingress-nginx delete poddisruptionbudget/ingress-nginx-controller
 
 #
 # Finally delete the cluster
 #
-eksctl delete cluster --name example
+eksctl delete cluster --name $CLUSTER_NAME
 
 #
 # Delete IAM policies

@@ -1,3 +1,6 @@
+############################################################################
+# The main MySQL application level resources are the same in any environment
+############################################################################
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
