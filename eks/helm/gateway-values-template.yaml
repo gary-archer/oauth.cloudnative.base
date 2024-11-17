@@ -1,0 +1,22 @@
+###################################################################################
+# Configure the load balancer to use TLS passthrough to NGINX
+# The AWS load balancer controller applies the annotations to the AWS load balancer
+# I use a static Elastic IP address of 18.168.121.141 for the load balancer
+###################################################################################
+controller:
+  replicaCount: 2
+  service:
+    type: LoadBalancer
+    annotations:
+      service.beta.kubernetes.io/aws-load-balancer-proxy-protocol: '*'
+      service.beta.kubernetes.io/aws-load-balancer-type: 'external'
+      service.beta.kubernetes.io/aws-load-balancer-nlb-target-type: 'ip'
+      service.beta.kubernetes.io/aws-load-balancer-scheme: internet-facing
+      service.beta.kubernetes.io/aws-load-balancer-backend-protocol: tcp
+      service.beta.kubernetes.io/aws-load-balancer-subnets: '$SUBNET_ID'
+      service.beta.kubernetes.io/aws-load-balancer-eip-allocations: '$EXTERNAL_IP_ADDRESS_REF'
+
+  config:
+    use-proxy-protocol: 'true'
+    real-ip-header: 'proxy_protocol'
+    use-forwarded-headers: 'true'

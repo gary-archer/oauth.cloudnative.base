@@ -16,6 +16,17 @@ EBS_POLICY_NAME='EBSCSIDriverIAMPolicy'
 LBC_POLICY_NAME='AWSLoadBalancerControllerIAMPolicy'
 
 #
+# Delete pod disruption budgets to prevent a blocked uninstall
+#
+kubectl -n kube-system delete poddisruptionbudget/coredns
+kubectl -n kube-system delete poddisruptionbudget/ebs-csi-controller
+
+#
+# Finally delete the cluster
+#
+eksctl delete cluster --name example
+
+#
 # Delete IAM policies
 #
 POLICY_ARN=$(aws iam list-policies --query "Policies[?PolicyName==\`$EBS_POLICY_NAME\`].Arn" --output text)
@@ -27,14 +38,3 @@ POLICY_ARN=$(aws iam list-policies --query "Policies[?PolicyName==\`$LBC_POLICY_
 if [ "$POLICY_ARN" == '' ]; then
   aws iam delete-policy --policy-arn $POLICY_ARN
 fi
-
-#
-# Delete pod disruption budgets to prevent a blocked uninstall
-#
-kubectl -n kube-system delete poddisruptionbudget/coredns
-kubectl -n kube-system delete poddisruptionbudget/ebs-csi-controller
-
-#
-# Finally delete the cluster
-#
-eksctl delete cluster --name example

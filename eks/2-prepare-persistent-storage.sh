@@ -24,7 +24,7 @@ aws iam create-policy \
   --policy-name $POLICY_NAME \
   --policy-document file://iam-policies/ebs-policy.json
 if [ $? -ne 0 ]; then
-  echo '*** Problem encountered creating the AWS load balancer controller policy'
+  echo '*** Problem encountered creating the EBS CSI driver controller policy'
   exit 1
 fi
 
@@ -43,8 +43,6 @@ if [ $? -ne 0 ]; then
   echo '*** Problem encountered creating the IAM service account for the EBS CSI driver'
   exit 1
 fi
-
-# autoMountServiceAccountToken
 
 #
 # Install the EBS CSI driver

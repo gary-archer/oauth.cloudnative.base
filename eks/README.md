@@ -27,14 +27,15 @@ An AWS load balancer controller inside the cluster is given permissions to creat
 ```
 
 Then create an API gateway inside the cluster which also triggers creation of a network load balancer.\
- to receive external traffic using TLS passthrough from a network load balancer.\
-In Route 53 I map the network load balancer's external host name to the custom domain `wordpress.authsamples-k8s.com`:
+The load balancer host name uses a static IP address and I map the host name to the Wordpress domain name in AWS Route 53.\
+The load balancer uses TLS passthrough to route all requests to the API gateway entry point to the cluster.
 
 ```bash
 ./4-deploy-api-gateway.sh
 ```
 
-You can then deploy application components that use ingress and data storage:
+Application level components use an ingress to integrate with the external load balancer.\
+Application level components use a persistent volume claim to integrate with external data storage:
 
 ```bash
 ./5-deploy-wordpress.sh

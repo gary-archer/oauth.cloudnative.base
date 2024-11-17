@@ -6,12 +6,32 @@ metadata:
   region: eu-west-2
   version: '1.31'
 
+#
+# I constrain worker nodes to a single availability zone
+#
 nodeGroups:
-- name: example-node-group
+- name: example-worker
   instanceType: t3.medium
   desiredCapacity: 2
-  volumeSize: 20
+  volumeSize: 10
   availabilityZones:
   - eu-west-2a
+  tags:
+    k8s.io/cluster-autoscaler/enabled: 'false'
   ssh:
     publicKeyPath: ~/.ssh/eks_rsa.pub
+
+#
+# The control plane node must use multiple availability zones
+#
+availabilityZones:
+- eu-west-2a
+- eu-west-2b
+
+#
+# Enable the use of IAM Roles for Service Accounts
+# - https://aws.amazon.com/blogs/containers/diving-into-iam-roles-for-service-accounts/
+# - aws eks describe-cluster --name example --query cluster.identity.oidc.issuer --output text
+#
+iam:
+  withOIDC: true
