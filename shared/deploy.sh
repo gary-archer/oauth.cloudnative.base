@@ -20,6 +20,7 @@ fi
 
 #
 # Ensure that persistent volumes are in a valid state to bind claims to
+# If not then re-run the prepare-persistent-storage script to fix it
 #
 MYSQL_STATUS="$(kubectl get pv pv-mysql-data -o 'jsonpath={..status.phase}')"
 if [ "$MYSQL_STATUS" != 'Available' ] && [ "$MYSQL_STATUS" != 'Bound' ]; then

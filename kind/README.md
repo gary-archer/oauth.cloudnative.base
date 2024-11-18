@@ -24,7 +24,7 @@ Next install load balancer prerequisites to enable external access to the cluste
 
 Then create an API gateway inside the cluster which also triggers assignment of an external IP address.\
 The script outputs the load balancer's external IP address which you map to `wordpress.authsamples-k8s-dev.com` in your hosts file.\
-The load balancer uses TLS passthrough to route all requests to the API gateway entry point to the cluster.
+The load balancer uses TCP passthrough to route all requests to the API gateway entry point to the cluster.
 
 ```bash
 ./4-deploy-api-gateway.sh

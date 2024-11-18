@@ -1,5 +1,5 @@
 ############################################################################
-# Configure NGINX to receive TLS passthrough requests from the load balancer
+# Configure NGINX to receive TCP passthrough requests from the load balancer
 ############################################################################
 controller:
   replicaCount: 1

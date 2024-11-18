@@ -1,5 +1,5 @@
 ##############################################################################################
-# Configure the load balancer to use TLS passthrough to NGINX
+# Configure the load balancer to use TCP passthrough to NGINX
 # The AWS load balancer controller enables finer control over annotations
 # The load balancer uses a fixed external IP address of 18.168.121.141
 # - https://medium.com/@silverdagger/nginx-ingress-controller-with-nlb-in-aws-eks-b5fe81c12e00
