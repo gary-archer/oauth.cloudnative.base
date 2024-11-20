@@ -30,12 +30,11 @@ eksctl delete cluster --name $CLUSTER_NAME
 # Delete IAM policies
 #
 POLICY_ARN=$(aws iam list-policies --query "Policies[?PolicyName==\`$EBS_POLICY_NAME\`].Arn" --output text)
-if [ "$POLICY_ARN" == '' ]; then
+if [ "$POLICY_ARN" != '' ]; then
   aws iam delete-policy --policy-arn $POLICY_ARN
 fi
 
 POLICY_ARN=$(aws iam list-policies --query "Policies[?PolicyName==\`$LBC_POLICY_NAME\`].Arn" --output text)
-if [ "$POLICY_ARN" == '' ]; then
+if [ "$POLICY_ARN" != '' ]; then
   aws iam delete-policy --policy-arn $POLICY_ARN
 fi
-
