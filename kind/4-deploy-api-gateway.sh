@@ -7,30 +7,21 @@
 cd "$(dirname "${BASH_SOURCE[0]}")"
 
 #
-# First install cert-manager so that the API gateway can request an SSL certificate for its host names
+# First create the namespace
 #
-kubectl apply -f https://github.com/cert-manager/cert-manager/releases/download/v1.16.1/cert-manager.yaml
+kubectl delete namespace ingress-nginx 2>/dev/null
+kubectl create namespace ingress-nginx
 if [ $? -ne 0 ]; then
-  echo '*** Problem encountered getting cert-manager resources'
+  echo '*** Problem encountered creating the NGINX namespace'
   exit 1
 fi
 
 #
-# Wait for certmanager pods to come up and allow some additional tolerance to avoid subsequent errors
+# Ask cert-manager to create a certificate that points to an external-tls secret for the API gateway's domain names
 #
-echo 'Waiting for cert-manager pods to come up ...'
-kubectl wait --namespace cert-manager \
-  --for=condition=ready pod \
-  --selector=app.kubernetes.io/component=controller \
-  --timeout=90s
-sleep 10
-
-#
-# Create a cluster issuer for the API gateway's host names, so that ingress certificates can be created in any namespace
-#
-kubectl -n cert-manager apply -f ./resources/cluster-issuer.yaml
+kubectl -n ingress-nginx apply -f ./resources/external-certificate.yaml
 if [ $? -ne 0 ]; then
-  echo '*** Problem encountered creating the cluster issuer for external SSL certificate for the API gateway'
+  echo 'Problem encountered creating the certificate for the API gateway'
   exit 1
 fi
 
@@ -40,7 +31,6 @@ fi
 helm upgrade --install ingress-nginx ingress-nginx \
   --repo https://kubernetes.github.io/ingress-nginx \
   --namespace ingress-nginx \
-  --create-namespace \
   --values=./resources/nginx-helm-values.yaml
 if [ $? -ne 0 ]; then
   echo '*** Problem encountered creating the ingress controller'

@@ -19,21 +19,6 @@ if [ "$WORDPRESS_HOSTNAME" == '' ]; then
 fi
 
 #
-# Ensure that persistent volumes are in a valid state to bind claims to
-# If not then re-run the prepare-persistent-storage script to fix it
-#
-MYSQL_STATUS="$(kubectl get pv pv-mysql-data -o 'jsonpath={..status.phase}')"
-if [ "$MYSQL_STATUS" != 'Available' ] && [ "$MYSQL_STATUS" != 'Bound' ]; then
-  echo '*** MySQL persistent volume is not available'
-  exit 1
-fi
-WORDPRESS_STATUS="$(kubectl get pv pv-wordpress-data -o 'jsonpath={..status.phase}')"
-if [ "$WORDPRESS_STATUS" != 'Available' ] && [ "$WORDPRESS_STATUS" != 'Bound' ]; then
-  echo '*** Wordpress persistent volume is not available'
-  exit 1
-fi
-
-#
 # Create the final Wordpress yaml file from the template file
 #
 envsubst < ./wordpress-template.yaml > ./wordpress.yaml
@@ -45,7 +30,6 @@ fi
 #
 # Create the Wordpress namespace in which to deploy application level resources
 #
-kubectl delete namespace wordpress 2>/dev/null
 kubectl create namespace wordpress
 if [ $? -ne 0 ]; then
   echo '*** Problem encountered restoring persistent volumes'

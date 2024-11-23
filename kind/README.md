@@ -4,34 +4,35 @@ Demonstrates local deployment to set up a cluster, hard disk storage and DNS ent
 
 ## Deployment
 
-Run the following script to create the KIND cluster:
+Run the following script to create the KIND cluster and enable storage external to the cluster:
 
 ```bash
 ./1-create-cluster.sh
 ```
 
-Next prepare persistent volumes to enable local data storage external to the cluster:
+Next run a development load balancer that will use TCP passthrough to the API gateway:
 
 ```bash
-./2-prepare-persistent-storage.sh
+./2-run-load-balancer.sh
 ```
 
-Next install load balancer prerequisites to enable external access to the cluster:
+Next install cert-manager to issue TLS certificates to the NGINX API gateway:
 
 ```bash
-./3-prepare-load-balancer.sh
+./3-prepare-certificate-issuance.sh
 ```
 
-Then create an API gateway inside the cluster which also triggers assignment of an external IP address.\
+Then create an API gateway inside the cluster that uses an external IP address and a cert-manager TLS certificate.\
 The script outputs the load balancer's external IP address which you map to `wordpress.authsamples-k8s-dev.com` in your hosts file.\
-The load balancer uses TCP passthrough to route all requests to the API gateway entry point to the cluster.
+The load balancer uses TCP passthrough to terminate TLS at the API gateway entry point to the cluster.
 
 ```bash
 ./4-deploy-api-gateway.sh
 ```
 
-Application level components use an ingress to integrate with the external load balancer.\
-Application level components use a persistent volume claim to integrate with external data storage:
+Application level components use an ingress to receive traffic from the API gateway.\
+Application level components use a persistent volume claim to integrate with external data storage.\
+Access the system at `https://wordpress.authsamples-k8s-dev.com`.
 
 ```bash
 ./5-deploy-wordpress.sh

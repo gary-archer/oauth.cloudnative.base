@@ -1,7 +1,10 @@
 ##############################################################################################
-# Configure the load balancer to use TCP passthrough to NGINX
-# The AWS load balancer controller enables finer control over annotations
-# The load balancer uses a fixed external IP address of 18.168.121.141
+# Parameters for the gateway Helm chart
+# - https://github.com/kubernetes/ingress-nginx/blob/main/charts/ingress-nginx/values.yaml
+#
+# - The load balancer uses a fixed external IP address of 18.168.121.141
+# - Configure the load balancer to use TCP passthrough to NGINX
+# - The AWS load balancer controller enables finer control over annotations
 # - https://medium.com/@silverdagger/nginx-ingress-controller-with-nlb-in-aws-eks-b5fe81c12e00
 ##############################################################################################
 controller:
@@ -17,6 +20,9 @@ controller:
       service.beta.kubernetes.io/aws-load-balancer-backend-protocol: tcp
       service.beta.kubernetes.io/aws-load-balancer-subnets: '$SUBNET_ID'
       service.beta.kubernetes.io/aws-load-balancer-eip-allocations: '$EXTERNAL_IP_ALLOCATION_ID'
+
+  extraArgs:
+    default-ssl-certificate: ingress-nginx/external-tls
 
   config:
     use-proxy-protocol: 'true'

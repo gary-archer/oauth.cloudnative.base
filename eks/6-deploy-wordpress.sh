@@ -7,12 +7,24 @@
 cd "$(dirname "${BASH_SOURCE[0]}")"
 
 export MYSQL_PASSWORD='Password1'
-export WORDPRESS_HOSTNAME='wordpress.authsamples-k8s-dev.com'
+export WORDPRESS_HOSTNAME='wordpress.authsamples-k8s.com'
 
 #
 # First delete the namespace if it exists
 #
 kubectl delete namespace wordpress 2>/dev/null
+
+#
+# I precreated Elastic Block Storage volumes (hard disks) with known volume IDs.
+# Configure the persistent volumes resources from these fixed IDs.
+#
+export MYSQL_VOLUME_ID='vol-082a989477e7cdf3c'
+export WORDPRESS_VOLUME_ID='vol-0ed05252b400615c7'
+envsubst < ./resources/persistent-volumes-template.yaml > ./resources/persistent-volumes.yaml
+if [ $? -ne 0 ]; then
+  echo '*** Problem encountered updating persistent volumes yaml with IDs'
+  exit 1
+fi
 
 #
 # Create KIND specific persistent volumes

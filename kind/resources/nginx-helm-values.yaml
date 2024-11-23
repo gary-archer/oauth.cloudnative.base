@@ -1,8 +1,11 @@
-############################################################################
+##########################################################################################
 # Configure NGINX to receive TCP passthrough requests from the load balancer
-############################################################################
+# - https://github.com/kubernetes/ingress-nginx/blob/main/charts/ingress-nginx/values.yaml
+##########################################################################################
 controller:
   replicaCount: 1
   service:
     type: LoadBalancer
     enableHttp: false
+  extraArgs:
+    default-ssl-certificate: ingress-nginx/external-tls

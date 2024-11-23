@@ -1,0 +1,9 @@
+########################################################################################################
+# A Helm chart for cert-manager which uses the self signed issuer to issue external gateway certificates
+# - https://github.com/cert-manager/cert-manager/blob/master/deploy/charts/cert-manager/values.yaml
+########################################################################################################
+crds:
+  enabled: true
+
+serviceAccount:
+  name: cert-manager-sa

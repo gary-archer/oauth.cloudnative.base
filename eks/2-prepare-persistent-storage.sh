@@ -15,8 +15,6 @@ AWS_ACCOUNT_ID='090109105180'
 AWS_REGION='eu-west-2'
 POLICY_NAME='EBSCSIDriverIAMPolicy'
 SERVICE_ACCOUNT_NAME='ebs-csi-controller-sa'
-MYSQL_VOLUME_ID='vol-082a989477e7cdf3c'
-WORDPRESS_VOLUME_ID='vol-0ed05252b400615c7'
 
 #
 # Create an IAM inline policy to grant the load balancer controller EC2 load balancing permissions
@@ -67,27 +65,5 @@ fi
 kubectl apply -f resources/custom-storageclass.yaml
 if [ $? -ne 0 ]; then
   echo '*** Problem encountered deploying the custom storage class'
-  exit 1
-fi
-
-#
-# I precreated Elastic Block Storage volumes (hard disks) with known volume IDs.
-# Configure the persistent volumes resources from these fixed IDs.
-#
-export MYSQL_VOLUME_ID
-export WORDPRESS_VOLUME_ID
-envsubst < ./resources/persistent-volumes-template.yaml > ./resources/persistent-volumes.yaml
-if [ $? -ne 0 ]; then
-  echo '*** Problem encountered updating persistent volumes yaml with IDs'
-  exit 1
-fi
-
-#
-# Finally act as an administrator to create Wordpress persistent volumes
-#
-kubectl delete -f persistent-volumes.yaml 2>/dev/null
-kubectl apply  -f persistent-volumes.yaml
-if [ $? -ne 0 ]; then
-  echo '*** Problem encountered restoring persistent volumes'
   exit 1
 fi

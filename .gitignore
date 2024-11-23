@@ -1,5 +1,6 @@
 .DS_Store
 download
+route53-trust.json
 eks/resources/nginx-helm-values.yaml
 eks/resources/persistent-volumes.yaml
 shared/wordpress.yaml

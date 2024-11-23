@@ -1,0 +1,11 @@
+###################################################################################################
+# A Helm chart for cert-manager to enable it to use the DNS01 solver and interact with Route 53
+# - https://github.com/cert-manager/cert-manager/blob/master/deploy/charts/cert-manager/values.yaml
+###################################################################################################
+crds:
+  enabled: true
+
+serviceAccount:
+  name: cert-manager-sa
+  annotations:
+    eks.amazonaws.com/role-arn: arn:aws:iam::090109105180:role/cert-manager

@@ -1,0 +1,22 @@
+
+#
+# An API gateway SSL certificate for our Wordpress domain
+#
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: api-gateway
+spec:
+  secretName: external-tls
+  isCA: false
+  duration: 2160h
+  renewBefore: 1440h
+  privateKey:
+    algorithm: ECDSA
+    size: 256
+  dnsNames:
+    - 'wordpress.authsamples-k8s-dev.com'
+  issuerRef:
+    name: gateway-issuer
+    kind: ClusterIssuer
+    group: cert-manager.io

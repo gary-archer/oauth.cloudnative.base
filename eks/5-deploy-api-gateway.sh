@@ -8,32 +8,6 @@
 cd "$(dirname "${BASH_SOURCE[0]}")"
 
 #
-# First install cert-manager so that the API gateway can request an SSL certificate for its host names
-#
-kubectl apply -f https://github.com/cert-manager/cert-manager/releases/download/v1.16.1/cert-manager.yaml
-if [ $? -ne 0 ]; then
-  echo '*** Problem encountered getting cert-manager resources'
-  exit 1
-fi
-
-#
-# Wait for certmanager pods to come up
-#
-kubectl wait --namespace cert-manager \
-  --for=condition=ready pod \
-  --selector=app.kubernetes.io/component=controller \
-  --timeout=90s
-
-#
-# Create a cluster issuer for the API gateway's host names, so that ingress resources can be created in any namespace
-#
-kubectl apply -f ./resources/cluster-issuer.yaml
-if [ $? -ne 0 ]; then
-  echo '*** Problem encountered creating the cluster issuer for the gateway SSL certificate'
-  exit 1
-fi
-
-#
 # I precreated and tagged an Elastic IP address of 18.168.121.141 to represent the API gateway's external IP address
 #
 EXTERNAL_IP_NAME='wordpress'
@@ -50,6 +24,25 @@ SUBNET_NAME='eksctl-example-cluster/SubnetPublicEUWEST2A'
 SUBNET_ID=$(aws ec2 describe-subnets --filters "Name=tag:Name,Values=$SUBNET_NAME" --query "Subnets[].SubnetId" --output text)
 if [ "$SUBNET_ID" == '' ]; then
   echo '*** Unable to find the subnet ID for the AWS load balancer'
+  exit 1
+fi
+
+#
+# First create the namespace
+#
+kubectl delete namespace ingress-nginx 2>/dev/null
+kubectl create namespace ingress-nginx
+if [ $? -ne 0 ]; then
+  echo '*** Problem encountered creating the NGINX namespace'
+  exit 1
+fi
+
+#
+# Ask cert-manager to create a certificate that points to an external-tls secret for the API gateway's domain names
+#
+kubectl -n ingress-nginx apply -f ./resources/external-certificate.yaml
+if [ $? -ne 0 ]; then
+  echo 'Problem encountered creating the certificate for the API gateway'
   exit 1
 fi
 
