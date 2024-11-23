@@ -16,7 +16,7 @@ kubectl delete namespace cert-manager 2>/dev/null
 #
 helm repo add jetstack https://charts.jetstack.io
 helm repo update
-helm install cert-manager jetstack/cert-manager -n cert-manager --values=certmanager-helm-values.yaml --create-namespace
+helm install cert-manager jetstack/cert-manager -n cert-manager --values=./resources/certmanager-helm-values.yaml --create-namespace
 if [ $? -ne 0 ]; then
   echo '*** Problem encountered installing cert-manager'
   exit 1
@@ -32,7 +32,7 @@ sleep 30
 #
 # Create a cluster issuer for the API gateway's host names, so that ingress resources can be created in any namespace
 #
-kubectl apply -f ./resources/cluster-issuer.yaml
+kubectl -n cert-manager apply -f ./resources/cluster-issuer.yaml
 if [ $? -ne 0 ]; then
   echo '*** Problem encountered creating the cluster issuer for the gateway SSL certificate'
   exit 1
